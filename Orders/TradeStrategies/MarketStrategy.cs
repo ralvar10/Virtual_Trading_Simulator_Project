@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace;
+﻿namespace Virtual_Trading_Simulator_Project.Orders.TradeStrategies;
 
 public class MarketStrategy : ITradeStrategy
 {
