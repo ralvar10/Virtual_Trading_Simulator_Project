@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class StockTickHandler
+public class StockTickHandler : ITickHandler
 {
     
 }

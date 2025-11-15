@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class MediumRiskTicker
+public class MediumRiskTicker : Ticker
 {
     
 }

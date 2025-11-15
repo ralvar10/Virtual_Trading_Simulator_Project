@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class StockMarket
+public class StockMarket : ITickerRepository
 {
     
 }

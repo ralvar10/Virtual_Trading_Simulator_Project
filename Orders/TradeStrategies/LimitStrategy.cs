@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class LimitStrategy
+public class LimitStrategy : ITradeStrategy
 {
     
 }

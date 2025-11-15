@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class Ticker
+public abstract class Ticker
 {
     
 }

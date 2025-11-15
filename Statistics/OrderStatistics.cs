@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class OrderStatistics
+public class OrderStatistics : IStatistics
 {
     
 }

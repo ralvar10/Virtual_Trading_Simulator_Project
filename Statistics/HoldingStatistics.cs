@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class HoldingStatistics
+public class HoldingStatistics : IStatistics
 {
     
 }

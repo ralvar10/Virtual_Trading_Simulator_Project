@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class TickerStatistics
+public class TickerStatistics : IStatistics
 {
     
 }

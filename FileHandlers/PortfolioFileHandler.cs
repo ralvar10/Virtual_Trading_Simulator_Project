@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class PortfolioFileHandler
+public class PortfolioFileHandler : IFileHandler
 {
     
 }

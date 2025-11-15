@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class BuyOrder
+public class BuyOrder : Order
 {
     
 }

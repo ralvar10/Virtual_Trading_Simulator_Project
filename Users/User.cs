@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class User
+public abstract class User
 {
     
 }

@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class LowRiskTicker
+public class LowRiskTicker : Ticker
 {
     
 }

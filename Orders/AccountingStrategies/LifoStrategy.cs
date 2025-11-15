@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class LifoStrategy
+public class LifoStrategy : IAccountingStrategy
 {
     
 }

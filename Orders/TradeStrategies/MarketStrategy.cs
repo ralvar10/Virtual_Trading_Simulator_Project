@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class MarketStrategy
+public class MarketStrategy : ITradeStrategy
 {
     
 }

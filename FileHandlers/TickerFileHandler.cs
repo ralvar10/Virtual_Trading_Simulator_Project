@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class TickerFileHandler
+public class TickerFileHandler : IFileHandler
 {
     
 }

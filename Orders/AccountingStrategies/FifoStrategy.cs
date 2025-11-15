@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace;
 
-public class FifoStrategy
+public class FifoStrategy : IAccountingStrategy
 {
     
 }
