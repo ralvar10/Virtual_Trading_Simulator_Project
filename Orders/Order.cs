@@ -13,7 +13,7 @@ public abstract class Order
     public readonly string OrderType;
     public readonly Trader Trader;
     public readonly int Quantity;
-    public readonly decimal Value;
+    public readonly double Value;
     public readonly Ticker Security;
     public readonly IStatistics OrderStats;
     
