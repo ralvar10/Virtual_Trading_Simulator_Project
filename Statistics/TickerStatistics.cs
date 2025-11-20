@@ -45,6 +45,13 @@ public class TickerStatistics : IStatistics
             {
                 _recentMovements.RemoveAt(0);
             }
+            
+            _recentValues.Add(currentValue);
+
+            if (_recentValues.Count > 10)
+            {
+                _recentValues.RemoveAt(0);
+            }
         }
     }
 
@@ -55,6 +62,30 @@ public class TickerStatistics : IStatistics
             Console.WriteLine($"{_ticker.Name} ({_ticker.Symbol}) Statitics:");
             Console.WriteLine($"All Time Min: {_minValue} | Max: {_maxValue}");
             Console.WriteLine($"Average Movement: {_recentMovements.Average()}");
+            
+            Console.Write("Recent Values: [");
+            
+            for (int i = 0 ; i < _recentMovements.Count; i++)
+            {
+                if (i != 0)
+                {
+                    Console.Write(" | ");
+                }
+                if (_recentMovements[i] < 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write($"{_recentValues[i]}");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"{_recentValues[i]}");
+                }
+
+                Console.ResetColor();
+            }
+            Console.Write("]");
+            
             Console.Write("Recent Movements: [");
             
             for (int i = 0 ; i < _recentMovements.Count; i++)
@@ -66,17 +97,19 @@ public class TickerStatistics : IStatistics
                 if (_recentMovements[i] < 0)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write($"{_recentMovements[i]}");
+                    Console.Write($"{_recentMovements[i]*100}%");
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"{_recentMovements[i]}");
+                    Console.Write($"{_recentMovements[i]*100}%");
                 }
 
                 Console.ResetColor();
             }
             Console.Write("]");
+            
+            
         }
     }
 }
