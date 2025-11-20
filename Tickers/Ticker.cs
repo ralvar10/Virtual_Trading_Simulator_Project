@@ -13,6 +13,15 @@ public abstract class Ticker
     private readonly object _priceLock = new object();
     private readonly object _volatilityLock = new object();
 
+    protected Ticker(string symbol, string name, double initialPrice)
+    {
+        Symbol = symbol;
+        Name = name;
+        _price = initialPrice;
+        _volatility = new VolatilityParameters();
+        Statistics = new TickerStatistics(this);
+    }
+    
     public VolatilityParameters GetVolatility()
     {
         lock (_volatilityLock)
