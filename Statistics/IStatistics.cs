@@ -2,5 +2,7 @@
 
 public interface IStatistics
 {
+    public void UpdateStatistics();
     
+    public void PrintStatistics();
 }
