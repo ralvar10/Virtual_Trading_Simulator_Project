@@ -2,5 +2,16 @@
 
 public struct VolatilityParameters
 {
+    public double MaxVolatility;
+    public double MinVolatility;
+    public double CurrentVolatility;
+    public double Sentiment;
     
+    public VolatilityParameters(double min, double max, double current, double sentiment)
+    {
+        MinVolatility = min;
+        MaxVolatility = max;
+        CurrentVolatility = current;
+        Sentiment = sentiment;
+    }
 }
