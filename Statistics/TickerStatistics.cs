@@ -44,7 +44,6 @@ public class TickerStatistics : IStatistics
             if (_recentMovements.Count > 10)
             {
                 _recentMovements.RemoveAt(0);
-                _recentMovements.TrimExcess();
             }
         }
     }
