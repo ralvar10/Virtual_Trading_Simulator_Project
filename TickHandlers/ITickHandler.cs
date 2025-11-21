@@ -2,5 +2,12 @@
 
 public interface ITickHandler
 {
-    
+    private static ITickHandler? _instance;
+
+    public static abstract ITickHandler GetInstance();
+    public bool UpdateTickRate();
+    public double GetTickRate();
+    public void Tick();
+    public void PauseTicks();
+    public void ResumeTicks();
 }
