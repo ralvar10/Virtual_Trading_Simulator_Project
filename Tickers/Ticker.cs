@@ -2,7 +2,7 @@
 
 namespace Virtual_Trading_Simulator_Project.Tickers;
 
-public abstract class Ticker
+public class Ticker
 {
     public readonly string Symbol;
     public readonly string Name;
@@ -13,7 +13,7 @@ public abstract class Ticker
     private readonly object _priceLock = new object();
     private readonly object _volatilityLock = new object();
 
-    protected Ticker(string symbol, string name, double initialPrice)
+    public Ticker(string symbol, string name, double initialPrice)
     {
         Symbol = symbol;
         Name = name;
@@ -22,7 +22,7 @@ public abstract class Ticker
         Statistics = new TickerStatistics(this);
     }
     
-    protected Ticker(string symbol, string name, double initialPrice, VolatilityParameters volatility)
+    public Ticker(string symbol, string name, double initialPrice, VolatilityParameters volatility)
     {
         Symbol = symbol;
         Name = name;
