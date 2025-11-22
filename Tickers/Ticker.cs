@@ -27,7 +27,7 @@ public class Ticker
         Symbol = symbol;
         Name = name;
         _price = initialPrice;
-        _volatility = new VolatilityParameters();
+        _volatility = volatility;
         Statistics = new TickerStatistics(this);
     }
     
