@@ -6,7 +6,7 @@ public interface ITickHandler
 
     public static abstract ITickHandler GetInstance();
     public bool UpdateTickRate();
-    public double GetTickRate();
+    public int GetTickRate();
     public void PauseTicks();
     public void ResumeTicks();
 }
