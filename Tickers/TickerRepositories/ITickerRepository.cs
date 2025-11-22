@@ -2,5 +2,12 @@
 
 public interface ITickerRepository
 {
+    private static ITickerRepository? _instance;
+
+    public ITickerRepository GetRepository();
     
+    public List<Ticker> GetTickers();
+    public Ticker SearchBySymbol(string symbol); 
+    public bool AddTicker(Ticker ticker);
+    public bool RemoveTicker(string symbol);
 }
