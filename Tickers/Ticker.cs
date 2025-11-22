@@ -22,6 +22,15 @@ public abstract class Ticker
         Statistics = new TickerStatistics(this);
     }
     
+    protected Ticker(string symbol, string name, double initialPrice, VolatilityParameters volatility)
+    {
+        Symbol = symbol;
+        Name = name;
+        _price = initialPrice;
+        _volatility = new VolatilityParameters();
+        Statistics = new TickerStatistics(this);
+    }
+    
     public VolatilityParameters GetVolatility()
     {
         lock (_volatilityLock)
