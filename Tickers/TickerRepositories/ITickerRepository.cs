@@ -4,7 +4,7 @@ public interface ITickerRepository
 {
     private static ITickerRepository? _instance;
 
-    public ITickerRepository GetRepository();
+    public static abstract ITickerRepository GetRepository();
     
     public List<Ticker> GetTickers();
     public Ticker? SearchBySymbol(string symbol); 
