@@ -5,12 +5,16 @@ public class StockMarket : ITickerRepository
     private List< Ticker > _tickers;
     private static ITickerRepository? _instance;
 
-    public ITickerRepository GetRepository()
+    private StockMarket()
+    {
+        _tickers = new List<Ticker>();
+    }
+    
+    public static ITickerRepository GetRepository()
     {
         if (_instance == null)
         {
             _instance = new StockMarket();
-            _tickers = new List<Ticker>();
         }
         return _instance;
     }
