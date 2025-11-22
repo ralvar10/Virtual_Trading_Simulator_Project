@@ -6,6 +6,14 @@ public struct VolatilityParameters
     public double MinVolatility;
     public double CurrentVolatility;
     public double Sentiment;
+
+    public VolatilityParameters()
+    {
+        MaxVolatility = .1;
+        MinVolatility = .1;
+        CurrentVolatility = 0;
+        Sentiment = 0;
+    }
     
     public VolatilityParameters(double min, double max, double current, double sentiment)
     {
