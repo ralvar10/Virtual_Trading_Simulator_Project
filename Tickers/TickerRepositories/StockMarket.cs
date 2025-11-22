@@ -2,5 +2,5 @@
 
 public class StockMarket : ITickerRepository
 {
-    
+    private List< Ticker > _tickers;
 }
