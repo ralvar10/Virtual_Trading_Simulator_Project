@@ -5,7 +5,7 @@ public interface ITickHandler
     private static ITickHandler? _instance;
 
     public static abstract ITickHandler GetInstance();
-    public bool UpdateTickRate();
+    public bool UpdateTickRate(int tickRate);
     public int GetTickRate();
     public void PauseTicks();
     public void ResumeTicks();
