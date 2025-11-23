@@ -8,5 +8,5 @@ public interface ITickHandler
     public bool UpdateTickRate(int tickRate);
     public int GetTickRate();
     public void PauseTicks();
-    public void ResumeTicks();
+    public void StartTicks();
 }
