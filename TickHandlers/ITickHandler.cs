@@ -9,4 +9,5 @@ public interface ITickHandler
     public int GetTickRate();
     public void PauseTicks();
     public void StartTicks();
+    public void StopTicks();
 }
