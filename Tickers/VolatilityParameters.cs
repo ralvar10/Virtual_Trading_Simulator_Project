@@ -10,7 +10,7 @@ public struct VolatilityParameters
     public VolatilityParameters()
     {
         MaxVolatility = .1;
-        MinVolatility = .1;
+        MinVolatility = .03;
         CurrentVolatility = 0;
         Sentiment = 0;
     }
