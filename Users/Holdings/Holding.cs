@@ -1,4 +1,7 @@
-﻿namespace Virtual_Trading_Simulator_Project.Users.Holdings;
+﻿using Virtual_Trading_Simulator_Project.Statistics;
+using Virtual_Trading_Simulator_Project.Tickers;
+
+namespace Virtual_Trading_Simulator_Project.Users.Holdings;
 
 public struct Holding
 {
