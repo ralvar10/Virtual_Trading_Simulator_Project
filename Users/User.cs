@@ -9,7 +9,8 @@ public abstract class User
 
     protected User(string username, string password, int id) 
     {
-        if (username.Length < 1 || password.Length < 1)
+        if (string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(password) || 
+            username.Length < 3 || password.Length < 3)
             throw new ArgumentException("Username or password is invalid");
         
         _password = password;
