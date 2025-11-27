@@ -1,29 +1,42 @@
-﻿using Virtual_Trading_Simulator_Project.Orders.AccountingStrategies;
-using Virtual_Trading_Simulator_Project.Orders.TradeStrategies;
+﻿using Virtual_Trading_Simulator_Project.Orders.TradeStrategies;
 using Virtual_Trading_Simulator_Project.Statistics;
 using Virtual_Trading_Simulator_Project.Tickers;
 using Virtual_Trading_Simulator_Project.Users;
 
 namespace Virtual_Trading_Simulator_Project.Orders;
 
-
 public abstract class Order
 {
-    public readonly string Id;
-    public readonly string OrderType;
-    public readonly Trader Trader;
-    public readonly int Quantity;
-    public readonly double Value;
-    public readonly Ticker Security;
-    public readonly IStatistics OrderStats;
+    public string Id {get;}
+    public Trader Trader {get;}
+    public double Quantity {get;}
+    public double Value {get;}
+    public Ticker Security {get;}
+    public OrderStatistics OrderStats {get;}
     
-    public readonly ITradeStrategy TradeStrategy;
-    public readonly IAccountingStrategy AccountingStrategy;
+    public ITradeStrategy TradeStrategy {get;}
     
     public DateTime Time {get;}
-    public OrderStatus Status {get;}
+    public OrderStatus Status {get; protected set;}
 
-    public abstract bool Validate();
+    protected Order(string id, Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy)
+    {
+        Id = id;
+        Trader = trader;
+        
+        if (quantity > 0)
+            Quantity = quantity;
+        else
+            throw new ArgumentException("Quantity must be greater than zero");
+        
+        Security = security;
+        TradeStrategy = tradeStrategy;
+        
+        Value = Security.GetPrice() * Quantity;
 
-    public abstract void PlaceOrder();
+        OrderStats = new  OrderStatistics(this); 
+        Time = DateTime.Now;
+        Status = OrderStatus.Pending;
+        
+    }
 }
