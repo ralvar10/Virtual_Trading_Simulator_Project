@@ -18,8 +18,8 @@ public struct VolatilityParameters
     public VolatilityParameters(double min, double max, double current, double sentiment)
     {
         MinVolatility = Math.Max(min, .001);
-        MaxVolatility = Math.Max(min, .01);
-        CurrentVolatility = Math.Max(min, .001);
+        MaxVolatility = Math.Min(max, .99);
+        CurrentVolatility = Math.Max(current, .001);
         Sentiment = Math.Max(Math.Min(sentiment, .999), .001);
     }
 }

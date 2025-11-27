@@ -8,7 +8,7 @@ public abstract class TickerFactory
         {
             case "high":
                 return new Ticker(symbol, name, initialPrice,
-                    new VolatilityParameters(-.05, .25, 0, 0));
+                    new VolatilityParameters(.05, .25, 0, 0));
             case "medium":
                 return new Ticker(symbol, name, initialPrice);
             case "low":
