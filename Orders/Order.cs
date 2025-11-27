@@ -7,7 +7,6 @@ namespace Virtual_Trading_Simulator_Project.Orders;
 
 public abstract class Order
 {
-    public string Id {get;}
     public Trader Trader {get;}
     public double Quantity {get;}
     public double Value {get;}
@@ -19,9 +18,8 @@ public abstract class Order
     public DateTime Time {get;}
     public OrderStatus Status {get; protected set;}
 
-    protected Order(string id, Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy)
+    protected Order(Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy)
     {
-        Id = id;
         Trader = trader;
         
         if (quantity > 0)

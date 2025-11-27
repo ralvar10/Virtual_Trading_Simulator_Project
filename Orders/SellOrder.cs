@@ -9,8 +9,8 @@ public class SellOrder : Order
 {
     public IAccountingStrategy AccountingStrategy {get;}
     
-    public SellOrder(string id, Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy,
-        IAccountingStrategy accountingStrategy) : base(id, trader, quantity, security, tradeStrategy)
+    public SellOrder(Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy,
+        IAccountingStrategy accountingStrategy) : base(trader, quantity, security, tradeStrategy)
     {
         AccountingStrategy = accountingStrategy;
     }
