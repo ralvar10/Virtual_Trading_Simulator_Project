@@ -1,6 +1,93 @@
-﻿namespace Virtual_Trading_Simulator_Project.Orders;
+﻿using Virtual_Trading_Simulator_Project.Orders.AccountingStrategies;
+using Virtual_Trading_Simulator_Project.Orders.TradeStrategies;
+using Virtual_Trading_Simulator_Project.Tickers;
+using Virtual_Trading_Simulator_Project.Users;
+
+namespace Virtual_Trading_Simulator_Project.Orders;
 
 public class OrderFactory
 {
+    private OrderFactory? _instance;
+
+    public OrderFactory GetFactory()
+    {
+        if (_instance == null)
+            _instance = new OrderFactory();
+        
+        return _instance;
+    }
+
+    Order CreateOrder(Trader trader, int quantity, Ticker security, string orderType, 
+        string tradeStrategy, string accountingStrategy)
+    {
+        ITradeStrategy trStrategy;
+        IAccountingStrategy? accStrategy;
+        
+        switch (tradeStrategy.ToLowerInvariant())
+        {
+            case "market":
+                trStrategy = new MarketStrategy();
+                break;
+            case "limit":
+                trStrategy = new LimitStrategy();
+                break;
+            default:
+                throw new ArgumentException("Unknown trade strategy");
+        }
+        
+        switch (accountingStrategy.ToLowerInvariant())
+        {
+            case "fifo":
+                accStrategy = new FifoStrategy();
+                break;
+            case "lifo":
+                accStrategy = new LifoStrategy();
+                break;
+            default:
+                if (orderType.ToLowerInvariant() == "buy")
+                {
+                    accStrategy = null;
+                    break;
+                }
+                throw new ArgumentException("Unknown accounting strategy");
+        }
+
+        switch (orderType.ToLowerInvariant())
+        {
+            case  "buy":
+                return new BuyOrder(trader, quantity, security, trStrategy);
+            case "sell":
+                return new SellOrder(trader, quantity, security, trStrategy, accStrategy);
+            default:
+                throw new ArgumentException("Unknown order type");
+        }
+    }
     
+    Order CreateOrder(Trader trader, int quantity, Ticker security, string orderType, string tradeStrategy)
+    {
+        ITradeStrategy trStrategy;
+        
+        switch (tradeStrategy.ToLowerInvariant())
+        {
+            case "market":
+                trStrategy = new MarketStrategy();
+                break;
+            case "limit":
+                trStrategy = new LimitStrategy();
+                break;
+            default:
+                throw new ArgumentException("Unknown trade strategy");
+        }
+
+        switch (orderType.ToLowerInvariant())
+        {
+            case  "buy":
+                return new BuyOrder(trader, quantity, security, trStrategy);
+            case "sell":
+                // Default accounting strategy is generally FIFO
+                return new SellOrder(trader, quantity, security, trStrategy, new FifoStrategy());
+            default:
+                throw new ArgumentException("Unknown order type");
+        }
+    }
 }
