@@ -48,6 +48,7 @@ public class SellOrder : Order
         if ( Status != OrderStatus.Pending)
         {
             Console.WriteLine("Order cannot be placed again!");
+            return;
         }
         
         if (Validate())
