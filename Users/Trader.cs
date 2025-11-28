@@ -72,7 +72,7 @@ public class Trader
         return (int)_balance;
     }
 
-    public void UpdateBalance(int change)
+    public void UpdateBalance(double change)
     {
         _balance += change;
     }
