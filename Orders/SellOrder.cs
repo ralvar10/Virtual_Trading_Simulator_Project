@@ -2,6 +2,7 @@
 using Virtual_Trading_Simulator_Project.Orders.TradeStrategies;
 using Virtual_Trading_Simulator_Project.Tickers;
 using Virtual_Trading_Simulator_Project.Users;
+using Virtual_Trading_Simulator_Project.Users.Holdings;
 
 namespace Virtual_Trading_Simulator_Project.Orders;
 
@@ -13,5 +14,64 @@ public class SellOrder : Order
         IAccountingStrategy accountingStrategy) : base(trader, quantity, security, tradeStrategy)
     {
         AccountingStrategy = accountingStrategy;
+    }
+    
+    public override bool Validate()
+    {
+        try
+        {
+            List<Holding> holdingsWithSymbol = Trader.GetHoldings().SearchBySymbol(Security.Symbol);
+            List<Holding> holdings = AccountingStrategy.SelectHoldings(Quantity, holdingsWithSymbol);
+        }
+        catch (InvalidOperationException e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
+        }
+
+        return true;
+    }
+
+    public override async Task PlaceOrder()
+    {
+        while (!TradeStrategy.ShouldExecute(this) && Status == OrderStatus.Pending)
+        {
+            Task.Delay(500);
+        }
+
+        if (Status != OrderStatus.Canceled || Status != OrderStatus.Pending)
+        {
+            throw new InvalidOperationException("Order cannot be placed again");
+        }
+        
+        if (Status == OrderStatus.Canceled)
+        {
+            Console.WriteLine("Order canceled!");
+        }
+        else
+        {
+            if (Validate())
+            {
+                double numRemoved = 0;
+                List<Holding> holdingsWithSymbol = Trader.GetHoldings().SearchBySymbol(Security.Symbol);
+                List<Holding> holdings = AccountingStrategy.SelectHoldings(Quantity, holdingsWithSymbol);
+                double price = Security.GetPrice();
+
+                Value = price;
+                
+                foreach (Holding holding in holdings)
+                {
+                    double toRemove = Math.Min(Quantity - numRemoved,  holding.Quantity);
+                    Trader.UpdateBalance(price* toRemove);
+                    Trader.GetHoldings().DecrementHolding(holding, toRemove);
+                    numRemoved += toRemove;
+                    
+                    if (numRemoved >= Quantity)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
