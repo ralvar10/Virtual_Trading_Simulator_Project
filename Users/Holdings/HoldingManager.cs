@@ -51,13 +51,11 @@ public class HoldingManager
 
         List<Holding> holdings = _holdings[holding.HoldingTicker.Symbol];
         
-        // For loop needed since parameter holding would be a copy
         for (int i = 0; i < holdings.Count; i++)
         {
-    
-            if (holdings[i].Time == holding.Time)
+            if (holdings[i].Equals(holding))
             {
-                var current = holdings[i];
+                Holding current = holdings[i];
                     
                 if (current.Quantity > amount)
                 {
@@ -66,7 +64,7 @@ public class HoldingManager
                         
                     return true;
                 }
-                else if (current.Quantity == amount)
+                else if (Math.Abs(current.Quantity - amount) < .001)
                 {
                     holdings.RemoveAt(i);
                     return true;
