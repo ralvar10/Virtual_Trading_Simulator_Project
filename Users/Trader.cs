@@ -80,4 +80,8 @@ public class Trader
         return _holdings;
     }
 
+    public IReadOnlyList<Order> GetOrderHistory()
+    {
+        return _orderHistory.GetOrders();
+    }
 }
