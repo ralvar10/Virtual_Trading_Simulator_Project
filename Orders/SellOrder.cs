@@ -36,42 +36,61 @@ public class SellOrder : Order
     {
         while (!TradeStrategy.ShouldExecute(this) && Status == OrderStatus.Pending)
         {
-            Task.Delay(500);
-        }
-
-        if (Status != OrderStatus.Canceled || Status != OrderStatus.Pending)
-        {
-            throw new InvalidOperationException("Order cannot be placed again");
+            await Task.Delay(500);
         }
         
         if (Status == OrderStatus.Canceled)
         {
             Console.WriteLine("Order canceled!");
+            return;
+        }
+        
+        if ( Status != OrderStatus.Pending)
+        {
+            Console.WriteLine("Order cannot be placed again!");
+        }
+        
+        if (Validate())
+        {
+            double numRemoved = 0;
+            List<Holding> holdingsWithSymbol = Trader.GetHoldings().SearchBySymbol(Security.Symbol);
+            List<Holding> holdings = new List<Holding>();
+
+            try
+            {
+                holdings = AccountingStrategy.SelectHoldings(Quantity, holdingsWithSymbol);
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e.Message);
+                Status = OrderStatus.Failed;
+                return;
+            }
+            
+            double price = Security.GetPrice();
+
+            Value = price * Quantity;
+            
+            foreach (Holding holding in holdings)
+            {
+                double toRemove = Math.Min(Quantity - numRemoved,  holding.Quantity);
+                Trader.UpdateBalance(price * toRemove);
+                Trader.GetHoldings().DecrementHolding(holding, toRemove);
+                numRemoved += toRemove;
+                
+                if (numRemoved >= Quantity)
+                {
+                    break;
+                }
+            }
+            
+            Status = OrderStatus.Filled;
+            Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value}");
         }
         else
         {
-            if (Validate())
-            {
-                double numRemoved = 0;
-                List<Holding> holdingsWithSymbol = Trader.GetHoldings().SearchBySymbol(Security.Symbol);
-                List<Holding> holdings = AccountingStrategy.SelectHoldings(Quantity, holdingsWithSymbol);
-                double price = Security.GetPrice();
-
-                Value = price;
-                
-                foreach (Holding holding in holdings)
-                {
-                    double toRemove = Math.Min(Quantity - numRemoved,  holding.Quantity);
-                    Trader.UpdateBalance(price* toRemove);
-                    Trader.GetHoldings().DecrementHolding(holding, toRemove);
-                    numRemoved += toRemove;
-                    
-                    if (numRemoved >= Quantity)
-                    {
-                        break;
-                    }
-                }
-            }
+            Status = OrderStatus.Failed;
+            Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value}");
         }
     }
 }
