@@ -9,7 +9,7 @@ public abstract class Order
 {
     protected Trader Trader {get;}
     public double Quantity {get;}
-    public double Value {get;}
+    public double Value {get; protected set;}
     public Ticker Security {get;}
     public OrderStatistics OrderStats {get;}
     
