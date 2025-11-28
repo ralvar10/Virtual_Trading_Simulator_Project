@@ -33,6 +33,17 @@ public abstract class Order
         OrderStats = new  OrderStatistics(this); 
         Time = DateTime.Now;
         Status = OrderStatus.Pending;
-        
+    }
+
+    public abstract bool Validate();
+
+    public abstract void PlaceOrder();
+
+    public void CancelOrder()
+    {
+        if (Status == OrderStatus.Pending)
+        {
+            Status = OrderStatus.Canceled;
+        }
     }
 }
