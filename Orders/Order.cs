@@ -29,8 +29,6 @@ public abstract class Order
         
         Security = security;
         TradeStrategy = tradeStrategy;
-        
-        Value = Security.GetPrice() * Quantity;
 
         OrderStats = new  OrderStatistics(this); 
         Time = DateTime.Now;
