@@ -7,5 +7,18 @@ namespace Virtual_Trading_Simulator_Project.Orders;
 public class BuyOrder : Order
 {
     public BuyOrder(Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy)
-        : base(trader, quantity, security, tradeStrategy){}
+        : base(trader, quantity, security, tradeStrategy)
+    {
+        
+    }
+
+    public bool Validate()
+    {
+        
+    }
+
+    public Task PlaceOrder()
+    {
+         
+    }
 }
