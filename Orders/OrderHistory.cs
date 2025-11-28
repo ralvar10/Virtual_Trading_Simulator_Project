@@ -4,7 +4,7 @@ using Virtual_Trading_Simulator_Project.Users;
 
 public class OrderHistory
 {
-    private readonly List<Order> _orders = new(); 
+    private List<Order> _orders = new(); 
     private readonly object _lock = new();
 
     public void AddOrder(Order order)
@@ -25,14 +25,14 @@ public class OrderHistory
         }
     }
 
-    public IReadOnlyList<OrderHistory> GetByTrader(Trader trader)
+    public IReadOnlyList<OrderHistory> GetBySymbol(string symbol)
     {
-        if (trader == null) throw new ArgumentNullException(nameof(trader));
+        if (symbol == null) throw new ArgumentNullException(nameof(symbol));
 
         lock (_lock)
         {
            return _orders
-                .Where(o => o.Trader.Id == trader.Id)
+                .Where(o => o.Security.Symbol == symbol)
                 .Select(o => new OrderHistory { _orders = new List<Order> { o } })
                 .ToList()
                 .AsReadOnly();
