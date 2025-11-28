@@ -2,5 +2,9 @@
 
 public class MarketStrategy : ITradeStrategy
 {
-    
+    public bool ShouldExecute(Order order)
+    {
+        // Market orders always immediately place
+        return true;
+    }
 }

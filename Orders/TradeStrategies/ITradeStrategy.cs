@@ -2,5 +2,5 @@
 
 public interface ITradeStrategy
 {
-    
+    public bool ShouldExecute(Order order);
 }
