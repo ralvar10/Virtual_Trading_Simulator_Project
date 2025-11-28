@@ -12,7 +12,7 @@ public class Trader
     
     private int _password;
     private double _balance;
-    private readonly Dictionary<Ticker, List<Holding>> _holdings;
+    private readonly HoldingManager _holdings;
     public string Role {get; } = "Trader";
     private readonly OrderHistory _orderHistory;
 
@@ -77,7 +77,7 @@ public class Trader
         _balance += change;
     }
 
-    public Dictionary<Ticker, List<Holding>> GetHoldings()
+    public HoldingManager GetHoldings()
     {
         return _holdings;
     }
