@@ -7,7 +7,7 @@ namespace Virtual_Trading_Simulator_Project.Orders;
 
 public abstract class Order
 {
-    public Trader Trader {get;}
+    protected Trader Trader {get;}
     public double Quantity {get;}
     public double Value {get;}
     public Ticker Security {get;}
