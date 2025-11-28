@@ -33,6 +33,8 @@ public abstract class Order
         OrderStats = new  OrderStatistics(this); 
         Time = DateTime.Now;
         Status = OrderStatus.Pending;
+        
+        Value = Security.GetPrice() * Quantity;
     }
 
     public abstract bool Validate();
