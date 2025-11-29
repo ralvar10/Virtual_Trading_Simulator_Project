@@ -2,6 +2,13 @@
 
 public class MarketStrategy : ITradeStrategy
 {
+    public string StrategyName { get; }
+
+    public MarketStrategy()
+    {
+        StrategyName = "Market";
+    }
+    
     public bool ShouldExecute(Order order)
     {
         // Market orders always immediately place

@@ -2,6 +2,8 @@
 
 public class LimitStrategy : ITradeStrategy
 {
+    public string StrategyName { get; }
+    
     public double? LimitPrice { get; }
     
     public LimitStrategy(double? limitPrice)
@@ -10,6 +12,7 @@ public class LimitStrategy : ITradeStrategy
             throw new ArgumentException("Limit price must be positive");
         
         LimitPrice = limitPrice;
+        this.StrategyName = "Limit";
     }
     
     public bool ShouldExecute(Order order)

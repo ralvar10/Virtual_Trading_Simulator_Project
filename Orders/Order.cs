@@ -12,9 +12,9 @@ public abstract class Order
     public double Value {get; protected set;}
     public Ticker Security {get;}
     public OrderStatistics OrderStats {get;}
-    public string OrderType {get;}
+    public string OrderType {get; protected set;}
     
-    public ITradeStrategy TradeStrategy {get;}
+    protected ITradeStrategy TradeStrategy {get;}
     
     public DateTime Time {get;}
     public OrderStatus Status {get; protected set;}
@@ -49,4 +49,6 @@ public abstract class Order
             Status = OrderStatus.Canceled;
         }
     }
+
+    public abstract List<string> GetStrategies();
 }

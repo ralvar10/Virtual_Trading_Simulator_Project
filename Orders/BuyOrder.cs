@@ -7,7 +7,10 @@ namespace Virtual_Trading_Simulator_Project.Orders;
 public class BuyOrder : Order
 {
     public BuyOrder(Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy)
-        : base(trader, quantity, security, tradeStrategy){}
+        : base(trader, quantity, security, tradeStrategy)
+    {
+        OrderType = "Buy";
+    }
     
 
     public override bool Validate()
@@ -68,5 +71,10 @@ public class BuyOrder : Order
         {
             Status = OrderStatus.Failed;
         }
+    }
+    
+    public override List<string> GetStrategies()
+    {
+        return new List<string>{TradeStrategy.StrategyName};
     }
 }

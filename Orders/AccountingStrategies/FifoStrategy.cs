@@ -4,6 +4,13 @@ namespace Virtual_Trading_Simulator_Project.Orders.AccountingStrategies;
 
 public class FifoStrategy : IAccountingStrategy
 {
+    public string StrategyName { get; }
+    
+    public FifoStrategy()
+    {
+        this.StrategyName = "FIFO";
+    }
+    
     public List<Holding> SelectHoldings(double amount, List<Holding> holdings)
     {
         if (holdings == null || holdings.Count == 0)

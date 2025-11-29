@@ -14,6 +14,7 @@ public class SellOrder : Order
         IAccountingStrategy accountingStrategy) : base(trader, quantity, security, tradeStrategy)
     {
         AccountingStrategy = accountingStrategy;
+        OrderType = "Sell";
     }
     
     public override bool Validate()
@@ -93,5 +94,10 @@ public class SellOrder : Order
             Status = OrderStatus.Failed;
             Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value}");
         }
+    }
+
+    public override List<string> GetStrategies()
+    {
+        return new List<string>{TradeStrategy.StrategyName, AccountingStrategy.StrategyName};
     }
 }
