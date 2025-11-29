@@ -16,12 +16,23 @@ public class Program
     
     public static void Main(string[] args)
     {
-        
+       
+    }
+
+    public Program()
+    {
+    _users = new List<User>(); 
+    _loggedInUser = null;
+    _tickerFileHandler = new TickerFileHandler();
+    _portfolioFileHandler  = new PortfolioFileHandler();
+    _tickerRepo = StockMarket.GetRepository();
+    _tickHandler = StockTickHandler.GetInstance();
+    _orderFactory =  OrderFactory.GetFactory();
     }
 
     private void LoadFromFiles()
     {
-        
+        throw new NotImplementedException();
     }
 
     private User Login()
