@@ -7,9 +7,11 @@ namespace Virtual_Trading_Simulator_Project.Orders;
 
 public class OrderFactory
 {
-    private OrderFactory? _instance;
+    private static OrderFactory? _instance;
 
-    public OrderFactory GetFactory()
+    private OrderFactory(){}
+    
+    public static OrderFactory GetFactory()
     {
         if (_instance == null)
             _instance = new OrderFactory();
