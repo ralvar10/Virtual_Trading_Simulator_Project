@@ -35,9 +35,51 @@ public class Program
         throw new NotImplementedException();
     }
 
-    private User Login()
+    private User? Login()
     {
+        Console.WriteLine("Please enter your: ");
+        Console.WriteLine("Username: ");
+        string? username = Console.ReadLine();
+        while (string.IsNullOrEmpty(username))
+        {
+            username = Console.ReadLine();
+            if (string.IsNullOrEmpty(username))
+            {
+                Console.WriteLine("Please Enter a Valid Username!");
+            }
+            
+        }
         
+        Console.WriteLine("Password: ");
+        string? password = Console.ReadLine();
+        if (string.IsNullOrEmpty(password))
+        {
+            Console.WriteLine("Please Enter a Valid Password!");
+        }
+        
+        User? foundUser = _users.Find(u => u.Username == username);
+
+        if (foundUser == null)
+        {
+            Console.WriteLine($"Username or password is incorrect!");
+            return null;
+        }
+
+        if (foundUser.Login(password))
+        {
+            return foundUser;
+        }
+        else
+        {
+            Console.WriteLine("Username or password is incorrect!");
+            return null;
+        }
+    }
+
+    private void LogOut()
+    {
+        Console.WriteLine($"Logged Out: {_loggedInUser?.Username}");
+        _loggedInUser = null;
     }
 
     private void DisplayOrderHistory()
