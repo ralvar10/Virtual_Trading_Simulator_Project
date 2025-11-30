@@ -2,10 +2,10 @@
 
 public abstract class User
 {
-    private string _password;
+    private readonly string _password;
     
     public int Id; 
-    public string Username;
+    public readonly string Username;
 
     protected User(string username, string password, int id) 
     {
