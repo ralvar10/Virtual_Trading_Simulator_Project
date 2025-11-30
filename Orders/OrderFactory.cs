@@ -19,7 +19,7 @@ public class OrderFactory
         return _instance;
     }
 
-    Order CreateOrder(Trader trader, int quantity, Ticker security, string orderType, 
+    public Order CreateOrder(Trader trader, int quantity, Ticker security, string orderType, 
         string tradeStrategy = "market", string accountingStrategy = "fifo", double? tradeStratParam = null)
     {
         ITradeStrategy trStrategy;
