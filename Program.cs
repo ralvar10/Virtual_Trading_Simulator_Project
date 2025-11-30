@@ -290,7 +290,7 @@ public class Program
         }
         catch (Exception e)
         {
-            _tickHandler.StartTicks();Ticks();
+            _tickHandler.StartTicks();
             Console.WriteLine($"\nError placing order: {e.Message}");
         }
 
