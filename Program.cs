@@ -1,5 +1,6 @@
 using Virtual_Trading_Simulator_Project.FileHandlers;
 using Virtual_Trading_Simulator_Project.Orders;
+using Virtual_Trading_Simulator_Project.Tickers;
 using Virtual_Trading_Simulator_Project.Tickers.TickerRepositories;
 using Virtual_Trading_Simulator_Project.TickHandlers;
 using Virtual_Trading_Simulator_Project.Users;
@@ -136,9 +137,163 @@ public class Program
         trader.GetHoldings().Stats.PrintStatistics();
     }
 
-    private void PlaceOrder()
+    private void PlaceOrder(Trader trader)
     {
-        
+        try
+        {
+            Console.Clear();
+            DisplayTickers();
+            
+            
+            Console.Write("\nEnter ticker symbol: ");
+            string? symbol = Console.ReadLine()?.ToUpper();
+            
+            if (string.IsNullOrEmpty(symbol))
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid ticker symbol!");
+                return;
+            }
+            
+            Ticker? ticker = _tickerRepo.SearchBySymbol(symbol);
+            if (ticker == null)
+            {
+                Console.Clear();
+                Console.WriteLine($"'{symbol}' not found!");
+                return;
+            }
+            
+            Console.Write("Order type (Buy/Sell): ");
+            string? orderType = Console.ReadLine()?.ToLower();
+            
+            if (orderType != "buy" && orderType != "sell")
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid order type! Must be 'Buy' or 'Sell'");
+                return;
+            }
+            
+            // Get quantity
+            Console.Write("Quantity: ");
+            if (!double.TryParse(Console.ReadLine(), out double quantity) || quantity <= 0)
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid quantity! Must be a positive number.");
+                return;
+            }
+            
+            /* 
+             * ITradeStrategy should be reworked to contain a method which provides necessary parameters
+             * as to better follow the open-closed principle and avoid having to manually write out each
+             * added strategy and its parameters in Program.
+             */
+            
+            Console.Write("Trade strategy (Market/Limit) (default: Market): ");
+            string? tradeStrategy = Console.ReadLine()?.ToLower();
+            if (string.IsNullOrEmpty(tradeStrategy))
+            {
+                tradeStrategy = "market";
+            }
+            
+            double? limitPrice = null;
+            if (tradeStrategy == "limit")
+            {
+                Console.Write("Limit price: ");
+                if (!double.TryParse(Console.ReadLine(), out double price) || price <= 0)
+                {
+                    Console.WriteLine("Invalid limit price!");
+                    return;
+                }
+                limitPrice = price;
+            }
+            
+            /*
+             * Not all types of securities use accounting strategies when trading, there may be a need for settings
+             * for each type of TickerRepository.This would allow Program to only print out necessary strategies
+             * that can be used on buy/sell orders of a given security type.
+             */
+            
+            string? accountingStrategy = "fifo";
+            if (orderType == "sell")
+            {
+                Console.Write("Accounting strategy (FIFO/LIFO) (default: FIFO): ");
+                accountingStrategy = Console.ReadLine()?.ToLower();
+                if (string.IsNullOrEmpty(accountingStrategy))
+                {
+                    accountingStrategy = "fifo";
+                }
+                
+                if (accountingStrategy != "fifo" && accountingStrategy != "lifo")
+                {
+                    Console.WriteLine("Invalid accounting strategy! Using FIFO.");
+                    accountingStrategy = "fifo";
+                }
+            }
+            
+            /*
+             * Typecast quantity to int as temporary fix to prevent partial trades of shares. This could fixed later
+             * by adding allowPartialTrades to the repository.
+             */
+            Order order = _orderFactory.CreateOrder(trader, (int)quantity, ticker, orderType, tradeStrategy, 
+                accountingStrategy, limitPrice);
+            
+            _tickHandler.PauseTicks();
+            
+            Console.WriteLine($"\n=== Order Summary ===");
+            Console.WriteLine($"Type: {orderType.ToUpper()}");
+            Console.WriteLine($"Symbol: {symbol}");
+            Console.WriteLine($"Quantity: {quantity}");
+            Console.WriteLine($"Current price: ${ticker.GetPrice()}");
+            Console.WriteLine($"Estimated value: ${ticker.GetPrice() * quantity}");
+            Console.WriteLine($"Strategy: {tradeStrategy.ToUpper()}");
+            if (limitPrice.HasValue)
+            {
+                Console.WriteLine($"Limit price: ${limitPrice.Value}");
+            }
+            if (orderType == "sell")
+            {
+                Console.WriteLine($"Accounting: {accountingStrategy.ToUpper()}");
+            }
+            Console.WriteLine("=====================");
+            
+            Console.Write("\nConfirm order? (y/n): ");
+            string? confirm = Console.ReadLine()?.ToLower();
+            
+            if (confirm == "y")
+            {
+                bool success = trader.PlaceOrder(order);
+                
+                if (success)
+                {
+                    Console.WriteLine("\nOrder placed successfully!");
+                    
+                    if (tradeStrategy == "market")
+                    {
+                        Console.WriteLine("Market order has been executed.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Limit order is pending. Will execute when price {(orderType == "buy" ? "drops to or below" : "rises to or above")} ${limitPrice}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\nOrder failed to place. Please check the error messages above.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("\nOrder cancelled.");
+            }
+            
+            _tickHandler.StopTicks();
+        }
+        catch (Exception e)
+        {
+            _tickHandler.StopTicks();
+            Console.WriteLine($"\nError placing order: {e.Message}");
+        }
+
     }
 
     private void ManagePendingOrders()
