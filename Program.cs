@@ -129,6 +129,11 @@ public class Program
         trader.Statistics.PrintStatistics();
     }
 
+    private void DisplayCurrentHoldings(Trader trader)
+    {
+        
+    }
+
     private void PlaceOrder()
     {
         
