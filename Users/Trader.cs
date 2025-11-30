@@ -8,24 +8,23 @@ namespace Virtual_Trading_Simulator_Project.Users;
 
 public class Trader
 {
-    public int Id {get; set;}
     public string Username {get; set;}
     
-    private int _password;
+    private string _password;
     private double _balance;
     private readonly HoldingManager _holdings;
     public string Role {get; } = "Trader";
     private readonly OrderHistory _orderHistory;
-    public TraderStatistics Statistics {get; private set;}
+    public readonly TraderStatistics Statistics;
 
-    public Trader(int id, string username, int password, double initialBalance)
+    public Trader(string username, string password, double initialBalance = 100)
     {
-        Id = id;
         Username = username;
         _password = password;
         _balance = initialBalance;
-        _holdings = new Dictionary<Ticker, List<Holding>>();
+        _holdings = new HoldingManager();
         _orderHistory = new OrderHistory();
+        Statistics = new TraderStatistics(this);
     }
     
     public bool PlaceOrder(Order order)

@@ -4,7 +4,6 @@ public abstract class User
 {
     private readonly string _password;
     
-    public int Id; 
     public readonly string Username;
 
     protected User(string username, string password, int id) 
@@ -15,7 +14,6 @@ public abstract class User
         
         _password = password;
         Username = username;
-        Id = id;
     }
 
     public bool Login(string password)

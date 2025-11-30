@@ -5,22 +5,18 @@ using Virtual_Trading_Simulator_Project.Tickers;
 
 public class Admin
 {
-    public int Id {get; set;}
     public string Username {get; }
-    private int _password;
+    private string _password;
     public string Role {get; } = "Admin";
-    private static int _nextTraderId = 1;
-    public static double TickSpeed {get; set;} = 1.0;
 
-    public Admin(int id, string username, int password)
+    public Admin(string username, string password)
     {
-        Id = id;
         Username = username ?? throw new ArgumentNullException(nameof(username));
         _password = password;
     }
 
     
-    public Trader CreateTrader(int id, string username, int password, double initialBalance)
+    public Trader CreateTrader(string username, string password, double initialBalance)
     {
         if (string.IsNullOrWhiteSpace(username))
         {
@@ -35,7 +31,7 @@ public class Admin
         int traderId = _nextTraderId++;
         int defaultPassword = 0; // Default password set to 0
 
-        return new Trader(traderId, username, defaultPassword, initialBalance);
+        return new Trader(username, defaultPassword, initialBalance);
     }
 
     public bool RemoveTicker(string symbol, ITickerRepository tickerRepository)
@@ -59,9 +55,9 @@ public class Admin
         return tickerRepository.RemoveTicker(ticker);
     }
 
-    public bool updateTickSpeed(double newSpeed)
+    public bool updateTickSpeed(int newSpeed)
     {
-        if (newSpeed <= 0)
+        if (newSpeed <= 500)
         {
             return false; // Invalid tick speed
         }
