@@ -67,6 +67,8 @@ public class Program
 
         if (foundUser.Login(password))
         {
+            Console.Clear();
+            Console.WriteLine($"Successfully logged in as {foundUser.Username}!");
             return foundUser;
         }
         else
