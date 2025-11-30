@@ -73,9 +73,12 @@ public class SellOrder : Order
 
             Value = price * Quantity;
             
+            
             foreach (Holding holding in holdings)
             {
                 double toRemove = Math.Min(Quantity - numRemoved,  holding.Quantity);
+                costBasis += holding.InitialCost * toRemove;
+                
                 Trader.UpdateBalance(price * toRemove);
                 Trader.GetHoldings().DecrementHolding(holding, toRemove);
                 numRemoved += toRemove;
@@ -85,6 +88,8 @@ public class SellOrder : Order
                     break;
                 }
             }
+            
+            Gain = Value - costBasis;
             
             Status = OrderStatus.Filled;
             Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value}");
