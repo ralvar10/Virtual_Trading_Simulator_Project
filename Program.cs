@@ -286,11 +286,11 @@ public class Program
                 Console.WriteLine("\nOrder cancelled.");
             }
             
-            _tickHandler.StopTicks();
+            _tickHandler.StartTicks();
         }
         catch (Exception e)
         {
-            _tickHandler.StopTicks();
+            _tickHandler.StartTicks();Ticks();
             Console.WriteLine($"\nError placing order: {e.Message}");
         }
 
