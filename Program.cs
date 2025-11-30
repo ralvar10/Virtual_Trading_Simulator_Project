@@ -84,7 +84,24 @@ public class Program
 
     private void DisplayOrderHistory()
     {
-        
+        var orders = trader.GetOrderHistory();
+    
+        if (orders.Count == 0)
+        {
+            Console.WriteLine("No orders found.");
+            return;
+        }
+    
+        Console.WriteLine("\n=== Order History ===");
+        Console.WriteLine($"{"Time",-20} {"Type",-5} {"Symbol",-8} {"Qty",-8} {"Value",-12} {"Gain/Loss",-12} {"Status",-10} {"Strategy",-15}");
+        Console.WriteLine(new string('-', 100));
+    
+        foreach (var order in orders)
+        {
+            order.OrderStats.PrintStatistics();
+        }
+    
+        Console.WriteLine(new string('-', 100));
     }
 
     private void DisplayTickers()
