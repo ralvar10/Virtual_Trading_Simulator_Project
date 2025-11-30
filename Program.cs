@@ -7,7 +7,7 @@ using Virtual_Trading_Simulator_Project.Users;
 public class Program
 {
     private List<User> _users;
-    private User _loggedInUser;
+    private User? _loggedInUser;
     private TickerFileHandler _tickerFileHandler;
     private PortfolioFileHandler _portfolioFileHandler;
     private ITickerRepository _tickerRepo;
@@ -124,9 +124,9 @@ public class Program
         Console.WriteLine($"Total Tickers: {tickers.Count}");
     }
         
-    private void DisplayUserStats()
+    private void DisplayUserStats(Trader trader)
     {
-        
+        trader.Statistics.PrintStatistics();
     }
 
     private void PlaceOrder()
