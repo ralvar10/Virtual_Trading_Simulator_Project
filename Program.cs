@@ -296,9 +296,43 @@ public class Program
 
     }
 
-    private void ManagePendingOrders()
+    private void ManagePendingOrders(Trader trader)
     {
+        _tickHandler.PauseTicks();
+        var allOrders = trader.GetOrderHistory();
+        List<Order> pendingOrders = allOrders.Where(o => o.Status == OrderStatus.Pending).ToList();
         
+        if (pendingOrders.Count == 0)
+        {
+            Console.WriteLine("\nNo pending orders.");
+            _tickHandler.StartTicks();
+            return;
+        }
+        
+        Console.WriteLine("\n=== Pending Orders ===");
+        Console.WriteLine($"{"#",-4} {"Time",-20} {"Type",-5} {"Symbol",-8} {"Qty",-8} {"Strategy",-15}");
+        Console.WriteLine(new string('-', 75));
+        
+        for (int i = 0; i < pendingOrders.Count; i++)
+        {
+            var order = pendingOrders[i];
+            var strategies = string.Join(", ", order.GetStrategies());
+            Console.WriteLine($"{i + 1,-4} {order.Time,-20} {order.OrderType,-5} {order.Security.Symbol,-8} {order.Quantity,-8} {strategies,-15}");
+        }
+        
+        Console.WriteLine(new string('-', 75));
+        Console.Write("\nEnter order number to cancel (or 0 to go back): ");
+        
+        if (int.TryParse(Console.ReadLine(), out int orderNum) && orderNum > 0 && orderNum <= pendingOrders.Count)
+        {
+            pendingOrders[orderNum - 1].CancelOrder();
+            Console.WriteLine("Order cancelled successfully!");
+        }
+        else if (orderNum != 0)
+        {
+            Console.WriteLine("Invalid order number!");
+        }
+        _tickHandler.StartTicks();
     }
 
     private void ManageTickers()
