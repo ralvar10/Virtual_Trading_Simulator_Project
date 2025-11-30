@@ -1,5 +1,6 @@
 ﻿using Virtual_Trading_Simulator_Project.Users.Holdings;
 using Virtual_Trading_Simulator_Project.Orders;
+using Virtual_Trading_Simulator_Project.Statistics;
 using Virtual_Trading_Simulator_Project.Tickers;
 
 namespace Virtual_Trading_Simulator_Project.Users;
@@ -15,6 +16,7 @@ public class Trader
     private readonly HoldingManager _holdings;
     public string Role {get; } = "Trader";
     private readonly OrderHistory _orderHistory;
+    public TraderStatistics Statistics {get; private set;}
 
     public Trader(int id, string username, int password, double initialBalance)
     {
