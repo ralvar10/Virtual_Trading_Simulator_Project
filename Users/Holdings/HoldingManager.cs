@@ -6,11 +6,12 @@ namespace Virtual_Trading_Simulator_Project.Users.Holdings;
 public class HoldingManager
 {
     private Dictionary<String, List<Holding>> _holdings;
-    public HoldingStatistics Stats;
+    public HoldingStatistics Stats { get;}
     
     public HoldingManager()
     {
         _holdings = new Dictionary<String, List<Holding>>();
+        Stats = new HoldingStatistics(this);
     }
 
     public Dictionary<String, List<Holding>> AllHoldings()
