@@ -55,6 +55,8 @@ public class SellOrder : Order
         if (Validate())
         {
             double numRemoved = 0;
+            double costBasis = 0;
+            
             List<Holding> holdingsWithSymbol = Trader.GetHoldings().SearchBySymbol(Security.Symbol);
             List<Holding> holdings = new List<Holding>();
 
