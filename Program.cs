@@ -125,7 +125,7 @@ public class Program
     
         Console.WriteLine($"Total Tickers: {tickers.Count}");
     }
-        
+    
     private void DisplayUserStats(Trader trader)
     {
         trader.Statistics.PrintStatistics();
@@ -133,7 +133,7 @@ public class Program
 
     private void DisplayCurrentHoldings(Trader trader)
     {
-        
+        trader.GetHoldings().Stats.PrintStatistics();
     }
 
     private void PlaceOrder()
