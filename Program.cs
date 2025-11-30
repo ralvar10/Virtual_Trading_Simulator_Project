@@ -106,7 +106,22 @@ public class Program
 
     private void DisplayTickers()
     {
-        
+        var tickers = _tickerRepo.GetTickers();
+    
+        if (tickers.Count == 0)
+        {
+            Console.WriteLine("No tickers available.");
+            return;
+        }
+    
+        Console.WriteLine("\n=== Available Tickers ===");
+    
+        foreach (var ticker in tickers)
+        {
+            ticker.Statistics.PrintStatistics();
+        }
+    
+        Console.WriteLine($"Total Tickers: {tickers.Count}");
     }
         
     private void DisplayUserStats()
