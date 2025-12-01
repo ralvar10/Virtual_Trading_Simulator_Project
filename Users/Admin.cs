@@ -3,17 +3,13 @@ using Virtual_Trading_Simulator_Project.Orders;
 using Virtual_Trading_Simulator_Project.Tickers;
 
 
-public class Admin
+public class Admin : User
 {
     public string Username {get; }
     private string _password;
     public string Role {get; } = "Admin";
 
-    public Admin(string username, string password)
-    {
-        Username = username ?? throw new ArgumentNullException(nameof(username));
-        _password = password;
-    }
+    public Admin(string username, string password) : base(username, password){}
 
     
     public Trader CreateTrader(string username, string password, double initialBalance)

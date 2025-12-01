@@ -8,9 +8,6 @@ namespace Virtual_Trading_Simulator_Project.Users;
 
 public class Trader
 {
-    public string Username {get; set;}
-    
-    private string _password;
     private double _balance;
     private readonly HoldingManager _holdings;
     public string Role {get; } = "Trader";
@@ -21,8 +18,6 @@ public class Trader
     {
         if (initialBalance < 0)
             throw new ArgumentException("Initial balance cannot be negative");
-        Username = username;
-        _password = password;
         _balance = initialBalance;
         _holdings = new HoldingManager();
         _orderHistory = new OrderHistory();
