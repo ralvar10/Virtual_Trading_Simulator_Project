@@ -581,6 +581,23 @@ public class Program
 
     void UpdateTickSpeed(Admin admin)
     {
+        Console.WriteLine($"\nCurrent tick rate: {_tickHandler.GetTickRate()}ms");
+        Console.Write("Enter new tick rate (ms, minimum 500): ");
         
+        if (int.TryParse(Console.ReadLine(), out int newSpeed))
+        {
+            if (admin.UpdateTickSpeed(newSpeed, _tickHandler))
+            {
+                Console.WriteLine($"Tick speed updated to {newSpeed}ms");
+            }
+            else
+            {
+                Console.WriteLine("Invalid tick speed! Must be > 500ms");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input!");
+        }
     } 
 }

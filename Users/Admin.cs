@@ -40,7 +40,7 @@ public class Admin : User
         return tickerRepository.RemoveTicker(symbol);
     }
 
-    public bool updateTickSpeed(int newSpeed, ITickHandler tickHandler)
+    public bool UpdateTickSpeed(int newSpeed, ITickHandler tickHandler)
     {
         if (newSpeed <= 500)
         {
