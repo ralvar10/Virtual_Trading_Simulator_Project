@@ -17,7 +17,9 @@ public class Program
     
     public static void Main(string[] args)
     {
-       
+        Program program = new Program();
+
+        program.RunProgram();
     }
 
     public Program()
