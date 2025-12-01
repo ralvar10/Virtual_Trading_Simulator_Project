@@ -1,6 +1,9 @@
-﻿namespace Virtual_Trading_Simulator_Project.Users;
+﻿using Virtual_Trading_Simulator_Project.Tickers.TickerRepositories;
+using Virtual_Trading_Simulator_Project.TickHandlers;
 using Virtual_Trading_Simulator_Project.Orders;
 using Virtual_Trading_Simulator_Project.Tickers;
+
+namespace Virtual_Trading_Simulator_Project.Users;
 
 
 public class Admin : User
@@ -39,14 +42,13 @@ public class Admin : User
         return tickerRepository.RemoveTicker(symbol);
     }
 
-    public bool updateTickSpeed(int newSpeed)
+    public bool updateTickSpeed(int newSpeed, ITickHandler tickHandler)
     {
         if (newSpeed <= 500)
         {
             return false; // Invalid tick speed
         }
 
-        TickSpeed = newSpeed;
-        return true;
+        return tickHandler.UpdateTickRate(newSpeed);
     }
 }

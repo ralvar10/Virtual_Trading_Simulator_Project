@@ -6,7 +6,7 @@ using Virtual_Trading_Simulator_Project.Tickers;
 namespace Virtual_Trading_Simulator_Project.Users;
 
 
-public class Trader
+public class Trader : User
 {
     private double _balance;
     private readonly HoldingManager _holdings;
@@ -14,7 +14,7 @@ public class Trader
     private readonly OrderHistory _orderHistory;
     public readonly TraderStatistics Statistics;
 
-    public Trader(string username, string password, double initialBalance = 100)
+    public Trader(string username, string password, double initialBalance = 100): base(username, password)
     {
         if (initialBalance < 0)
             throw new ArgumentException("Initial balance cannot be negative");
