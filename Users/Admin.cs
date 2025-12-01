@@ -27,27 +27,16 @@ public class Admin : User
         
         return repository.AddTicker(ticker);
     }
-    {
     
     public bool RemoveTicker(string symbol, ITickerRepository tickerRepository)
     {
         if (string.IsNullOrWhiteSpace(symbol))
-        {
             throw new ArgumentException("Ticker symbol cannot be null or empty.", nameof(symbol));
-        }
 
         if (tickerRepository == null)
-        {
             throw new ArgumentNullException(nameof(tickerRepository));
-        }
 
-        var ticker = tickerRepository.GetTickerBySymbol(symbol);
-        if (ticker == null)
-        {
-            return false; // Ticker not found
-        }
-
-        return tickerRepository.RemoveTicker(ticker);
+        return tickerRepository.RemoveTicker(symbol);
     }
 
     public bool updateTickSpeed(int newSpeed)
