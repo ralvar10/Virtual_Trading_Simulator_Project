@@ -8,8 +8,6 @@ namespace Virtual_Trading_Simulator_Project.Users;
 
 public class Admin : User
 {
-    public string Username {get; }
-    private string _password;
     public string Role {get; } = "Admin";
 
     public Admin(string username, string password) : base(username, password){}
