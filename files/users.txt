@@ -1,11 +1,9 @@
 ﻿[USER]
-# Format: UserType|Username|Password|Balance
-Admin|admin|admin123
+Admin|admin|admin
 Trader|samuel|supersecure|15420.75
 Trader|ramiro|ramirospassword|8750.50
 
 [HOLDINGS]
-# Format: Username|TickerSymbol|Quantity|InitialCost|PurchaseTime
 samuel|AAPL|25.0000|170.00|2024-11-15 10:30:00
 samuel|GOOGL|10.0000|138.50|2024-11-18 14:45:00
 samuel|MSFT|15.0000|375.00|2024-11-20 09:15:00
