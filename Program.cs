@@ -10,7 +10,7 @@ public class Program
     private List<User> _users;
     private User? _loggedInUser;
     private TickerFileHandler _tickerFileHandler;
-    private PortfolioFileHandler _portfolioFileHandler;
+    private UserFileHandler _userFileHandler;
     private ITickerRepository _tickerRepo;
     private ITickHandler _tickHandler;
     private OrderFactory _orderFactory;
@@ -26,16 +26,20 @@ public class Program
     {
     _users = new List<User>(); 
     _loggedInUser = null;
-    _tickerFileHandler = new TickerFileHandler();
-    _portfolioFileHandler  = new PortfolioFileHandler();
     _tickerRepo = StockMarket.GetRepository();
     _tickHandler = StockTickHandler.GetInstance();
     _orderFactory =  OrderFactory.GetFactory();
+    _tickerFileHandler = TickerFileHandler.GetInstance(_tickerRepo);
+    _userFileHandler  = UserFileHandler.GetInstance(_users, _tickerRepo);
     }
 
     private void RunProgram()
     {
-        // LoadFromFiles();
+        Console.WriteLine($"Where are your data files stored? (Current Directory: {Directory.GetCurrentDirectory()}):");
+        Console.WriteLine();
+        string? path = Console.ReadLine();
+        
+        LoadFromFiles(path);
         bool running = true;
         
         _tickHandler.StartTicks();
@@ -153,16 +157,53 @@ public class Program
 
         }
         _tickHandler.StopTicks();
-        // SaveToFiles();
-            Console.WriteLine("Goodbye!");
+        SaveToFiles(path);
+        Console.WriteLine("Goodbye!");
     }
 
-        void LoadFromFiles()
+        void LoadFromFiles(string path)
     {
-        throw new NotImplementedException();
+        try
+        {
+            bool tickersLoaded = _tickerFileHandler.LoadFromFile(path + "/tickers.txt");
+            
+            if (!tickersLoaded)
+            {
+                Console.WriteLine("Ticker Import Failed!");
+            }
+            
+            bool usersLoaded = _userFileHandler.LoadFromFile(path + "/users.txt");
+            
+            if (!usersLoaded)
+            {
+                Console.WriteLine("User Import Failed!");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading data: {ex.Message}");
+        }
     }
 
-    private User? Login()
+        void SaveToFiles(string path)
+    {
+        try
+        {
+            Console.WriteLine("\nSaving data to files...");
+            
+            _tickerFileHandler.WriteToFile(path + "/tickers.txt");
+            
+            _userFileHandler.WriteToFile(path + "/users.txt");
+            
+            Console.WriteLine("Data saved successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving data: {ex.Message}");
+        }
+    }
+
+        User? Login()
     {
         Console.WriteLine("Please enter your: ");
         Console.WriteLine("Username: ");
@@ -422,7 +463,7 @@ public class Program
 
     }
 
-    private void ManagePendingOrders(Trader trader)
+    void ManagePendingOrders(Trader trader)
     {
         _tickHandler.PauseTicks();
         var allOrders = trader.GetOrderHistory();

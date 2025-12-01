@@ -2,5 +2,9 @@
 
 public interface IFileHandler
 {
+    public IFileHandler GetFileHandler();
     
+    public bool LoadFromFile(string fileName);
+    
+    public bool WriteToFile(string fileName);
 }

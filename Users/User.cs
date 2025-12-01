@@ -20,4 +20,9 @@ public abstract class User
     {
         return password == _password;
     }
+
+    public string GetPassword()
+    {
+        return _password;
+    }
 }
