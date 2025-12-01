@@ -31,7 +31,131 @@ public class Program
     _orderFactory =  OrderFactory.GetFactory();
     }
 
-    private void LoadFromFiles()
+    private void RunProgram()
+    {
+        // LoadFromFiles();
+        bool running = true;
+        
+        _tickHandler.StartTicks();
+        
+        Console.WriteLine("=== Virtual Trading Simulator ===");
+
+        string? choice = null;
+
+        while (running)
+        {
+            if (_loggedInUser == null)
+            {
+                Console.WriteLine("\n1. Login");
+                Console.WriteLine("2. Exit");
+                Console.Write("Select option: ");
+
+                choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        _loggedInUser = Login();
+                        break;
+                    case "2":
+                        running = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option!");
+                        break;
+                }
+
+                choice = null;
+            }
+            else if (_loggedInUser is Admin admin)
+            {
+                Console.WriteLine("\n=== Admin Menu ===");
+                Console.WriteLine("1. View All Tickers");
+                Console.WriteLine("2. Manage Tickers");
+                Console.WriteLine("3. Update Tick Speed");
+                Console.WriteLine("4. Create Trader Account");
+                Console.WriteLine("5. Logout");
+                Console.Write("Select option: ");
+
+                choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        DisplayTickers();
+                        break;
+                    case "2":
+                        ManageTickers(admin);
+                        break;
+                    case "3":
+                        UpdateTickSpeed(admin);
+                        break;
+                    case "4":
+                        CreateTrader(admin);
+                        break;
+                    case "5":
+                        LogOut();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option!");
+                        break;
+                }
+
+                choice = null;
+            }
+            else if (_loggedInUser is Trader trader)
+            {
+                Console.WriteLine("\n=== Trader Menu ===");
+                Console.WriteLine($"Balance: ${trader.GetBalance():F2}");
+                Console.WriteLine("1. View Available Tickers");
+                Console.WriteLine("2. Place Order");
+                Console.WriteLine("3. Manage Pending Orders");
+                Console.WriteLine("4. View Order History");
+                Console.WriteLine("5. View Current Holdings");
+                Console.WriteLine("6. View Statistics");
+                Console.WriteLine("7. Logout");
+                Console.Write("Select option: ");
+
+                choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        DisplayTickers();
+                        break;
+                    case "2":
+                        PlaceOrder(trader);
+                        break;
+                    case "3":
+                        ManagePendingOrders(trader);
+                        break;
+                    case "4":
+                        DisplayOrderHistory(trader);
+                        break;
+                    case "5":
+                        DisplayCurrentHoldings(trader);
+                        break;
+                    case "6":
+                        DisplayUserStats(trader);
+                        break;
+                    case "7":
+                        LogOut();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option!");
+                        break;
+                }
+
+                choice = null;
+            }
+
+        }
+        _tickHandler.StopTicks();
+        // SaveToFiles();
+            Console.WriteLine("Goodbye!");
+    }
+
+        void LoadFromFiles()
     {
         throw new NotImplementedException();
     }
@@ -79,13 +203,13 @@ public class Program
         }
     }
 
-    private void LogOut()
+    void LogOut()
     {
         Console.WriteLine($"Logged Out: {_loggedInUser?.Username}");
         _loggedInUser = null;
     }
 
-    private void DisplayOrderHistory(Trader trader)
+    void DisplayOrderHistory(Trader trader)
     {
         var orders = trader.GetOrderHistory();
     
@@ -107,7 +231,7 @@ public class Program
         Console.WriteLine(new string('-', 100));
     }
 
-    private void DisplayTickers()
+    void DisplayTickers()
     {
         var tickers = _tickerRepo.GetTickers();
     
@@ -126,18 +250,18 @@ public class Program
     
         Console.WriteLine($"Total Tickers: {tickers.Count}");
     }
-    
-    private void DisplayUserStats(Trader trader)
+
+    void DisplayUserStats(Trader trader)
     {
         trader.Statistics.PrintStatistics();
     }
 
-    private void DisplayCurrentHoldings(Trader trader)
+    void DisplayCurrentHoldings(Trader trader)
     {
         trader.GetHoldings().Stats.PrintStatistics();
     }
 
-    private void PlaceOrder(Trader trader)
+    void PlaceOrder(Trader trader)
     {
         try
         {
@@ -335,7 +459,53 @@ public class Program
         _tickHandler.StartTicks();
     }
 
-    private void ManageTickers()
+    void CreateTrader(Admin admin)
+    {
+        try
+        {
+            Console.Write("\nEnter username for new trader: ");
+            string? username = Console.ReadLine();
+            
+            if (string.IsNullOrEmpty(username))
+            {
+                Console.WriteLine("Invalid username!");
+                return;
+            }
+            
+            if (_users.Any(u => u.Username == username))
+            {
+                Console.WriteLine($"Username '{username}' already exists!");
+                return;
+            }
+            
+            Console.Write("Enter password: ");
+            string? password = Console.ReadLine();
+            
+            if (string.IsNullOrEmpty(password))
+            {
+                Console.WriteLine("Invalid password!");
+                return;
+            }
+            
+            Console.Write("Enter initial balance: ");
+            if (!double.TryParse(Console.ReadLine(), out double balance) || balance < 0)
+            {
+                Console.WriteLine("Invalid balance!");
+                return;
+            }
+            
+            Trader newTrader = admin.CreateTrader(username, password, balance);
+            _users.Add(newTrader);
+            
+            Console.WriteLine($"Trader account '{username}' created successfully with balance ${balance}!");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error creating trader: {ex.Message}");
+        }
+    }
+
+    void ManageTickers(Admin admin)
     {
         Console.WriteLine("\n=== Manage Tickers ===");
         Console.WriteLine("1. Add Ticker");
@@ -467,8 +637,8 @@ public class Program
                 break;
         }
     }
-    
-    private void UpdateTickerPrice(Admin admin)
+
+    void UpdateTickerPrice(Admin admin)
     {
         DisplayTickers();
         
