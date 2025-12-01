@@ -339,8 +339,50 @@ public class Program
     {
         
     }
-
-    private void UpdateTickSpeed()
+    
+    private void UpdateTickerPrice(Admin admin)
+    {
+        DisplayTickers();
+        
+        Console.Write("\nEnter ticker symbol: ");
+        string? symbol = Console.ReadLine()?.ToUpper();
+        
+        if (string.IsNullOrEmpty(symbol))
+        {
+            Console.WriteLine("Invalid ticker symbol!");
+            return;
+        }
+        
+        Ticker? ticker = _tickerRepo.SearchBySymbol(symbol);
+        if (ticker == null)
+        {
+            Console.WriteLine($"Ticker '{symbol}' not found!");
+            return;
+        }
+        
+        Console.WriteLine($"Current price: ${ticker.GetPrice()}");
+        Console.Write("Enter new price: ");
+        
+        if (!double.TryParse(Console.ReadLine(), out double newPrice) || newPrice <= 0)
+        {
+            Console.WriteLine("Invalid price!");
+            return;
+        }
+        
+        bool result = admin.UpdatePrice(newPrice, symbol, _tickerRepo);
+        
+        if (result)
+        {
+            Console.WriteLine($"\nPrice updated successfully!");
+            Console.WriteLine($"  {symbol}: ${result}");
+        }
+        else
+        {
+            Console.WriteLine("\nFailed to update price.");
+        }
+    }
+    
+    public bool UpdateTickSpeed()
     {
         
     } 
