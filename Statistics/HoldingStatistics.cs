@@ -48,17 +48,17 @@ public class HoldingStatistics : IStatistics
             totalCost += totalCostBasis;
             totalValue += currentVal;
 
-            Console.Write($"{symbol,-8} {holdings[0].HoldingTicker.Name,-25} {totalQuantity,-10} ${avgCostBasis,-11} ${currentPrice,-11} ${currentVal,-11} ");
+            Console.Write($"{symbol,-8} {holdings[0].HoldingTicker.Name,-25} {totalQuantity,-10:F2} ${avgCostBasis,-11} ${currentPrice,-11:F2} ${currentVal,-11:F2} ");
 
             if (gainLoss >= 0)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"+${gainLoss,-14}");
+                Console.WriteLine($"+${gainLoss,-14:F2}");
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"-${Math.Abs(gainLoss),-14}");
+                Console.WriteLine($"-${Math.Abs(gainLoss),-14:F2}");
             }
             Console.ResetColor();
         }
@@ -66,17 +66,17 @@ public class HoldingStatistics : IStatistics
         Console.WriteLine(new string('-', 100));
 
         double gain = totalValue - totalCost;
-        Console.Write($"Portfolio Total: ${totalValue} | Cost Basis: ${totalCost} | Total Gain/Loss: ");
+        Console.Write($"Portfolio Total: ${totalValue:F2} | Cost Basis: ${totalCost:F2} | Total Gain/Loss: ");
 
         if (gain >= 0)
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine($"+${gain}");
+            Console.WriteLine($"+${gain:F2}");
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"-${Math.Abs(gain)}");
+            Console.WriteLine($"-${Math.Abs(gain):F2}");
         }
         Console.ResetColor();
         Console.WriteLine();

@@ -46,20 +46,20 @@ public class TraderStatistics : IStatistics
     public void PrintStatistics()
     {
         Console.WriteLine($"\n{_trader.Username} Statistics");
-        Console.Write($"Balance: ${_trader.GetBalance()} | Initial: ${_initialBalance} | High: ${_highestBalance} | Overall Gain: ");
+        Console.Write($"Balance: ${_trader.GetBalance():F2} | Initial: ${_initialBalance:F2} | High: ${_highestBalance:F2} | Overall Gain: ");
     
         if (_overallGains < 0)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.Write($"-${Math.Abs(_overallGains)}");
+            Console.Write($"-${Math.Abs(_overallGains):F2}");
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.Write($"+${_overallGains}");
+            Console.Write($"+${_overallGains:F2}");
         }
         Console.ResetColor();
     
-        Console.WriteLine($"\nAverage Sell Trade Value: ${_averageTradePrice}\n");
+        Console.WriteLine($"\nAverage Sell Trade Value: ${_averageTradePrice:F2}\n");
     }
 }

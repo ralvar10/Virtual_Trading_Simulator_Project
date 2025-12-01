@@ -62,7 +62,7 @@ public class TickerStatistics : IStatistics
         lock (_statsLock)
         {
             Console.WriteLine($"\n{_ticker.Name} ({_ticker.Symbol})");
-            Console.WriteLine($"Current: ${_ticker.GetPrice()} | All Time Min: ${_minValue} | Max: ${_maxValue}");
+            Console.WriteLine($"Current: ${_ticker.GetPrice():F2} | All Time Min: ${_minValue:F2} | Max: ${_maxValue:F2}");
         
             Console.Write("Recent Values: [");
             for (int i = 0; i < _recentValues.Count; i++)
@@ -76,7 +76,7 @@ public class TickerStatistics : IStatistics
                 else
                     Console.ForegroundColor = ConsoleColor.Gray;
             
-                Console.Write($"${_recentValues[i]}");
+                Console.Write($"${_recentValues[i]:F2}");
                 Console.ResetColor();
             }
             Console.Write("]");
@@ -93,7 +93,7 @@ public class TickerStatistics : IStatistics
                 else
                     Console.ForegroundColor = ConsoleColor.Gray;
             
-                Console.Write($"{(_recentMovements[i] >= 0 ? "+" : "")}{_recentMovements[i] * 100}%");
+                Console.Write($"{(_recentMovements[i] >= 0 ? "+" : "")}{(_recentMovements[i] * 100):F2}%");
                 Console.ResetColor();
             }
             Console.WriteLine("]\n");
