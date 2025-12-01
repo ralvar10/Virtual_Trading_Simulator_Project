@@ -51,4 +51,33 @@ public class Admin : User
 
         return tickHandler.UpdateTickRate(newSpeed);
     }
+
+    public bool UpdateVolatility(VolatilityParameters parameters, string symbol, ITickerRepository repository)
+    {
+        Ticker? ticker = repository.SearchBySymbol(symbol);
+
+        if (ticker == null)
+        {
+            return false; 
+        }
+
+        ticker.SetVolatility(parameters);
+        return true;
+    }
+    
+    public bool UpdatePrice(double newPrice, string symbol, ITickerRepository repository)
+    {
+        if (newPrice <= 0)
+            return false; 
+
+        Ticker? ticker = repository.SearchBySymbol(symbol);
+        
+        if (ticker == null)
+        {
+            return false; 
+        }
+
+        ticker.SetPrice(newPrice);
+        return true;
+    }
 }
