@@ -19,6 +19,8 @@ public class Trader
 
     public Trader(string username, string password, double initialBalance = 100)
     {
+        if (initialBalance < 0)
+            throw new ArgumentException("Initial balance cannot be negative");
         Username = username;
         _password = password;
         _balance = initialBalance;
@@ -31,51 +33,27 @@ public class Trader
     {
         if (order == null) throw new ArgumentNullException(nameof(order));
 
-        if (!order.Validate())
-        {
-            return false;
-        }
-
-        double price = order.Ticker.GetPrice();
-        double tradeValue = price * order.Quantity;
-
-        if (string.Equals(order.OrderType, "BUY", StringComparison.OrdinalIgnoreCase))
-        {
-            if (_balance < tradeValue)
-            {
-                return false; // Insufficient balance
-            }
-
-            _balance -= tradeValue;
-            AddHolding(order.Ticker, order.Quantity, price);
-        }
-        else if (string.Equals(order.OrderType, "SELL", StringComparison.OrdinalIgnoreCase))
-        {
-            if (!RemoveHolding(order.Ticker, order.Quantity))
-            {
-                return false; // Insufficient holdings
-            }
-
-            _balance += tradeValue;
-        }
-        else
-        {
-            return false; // Invalid order type
-        }
-
         order.PlaceOrder();
-        _orderHistory.Add(order);
+        _orderHistory.AddOrder(order);
+        
         return true;
     }
     
-    public int GetBalance()
+    public double GetBalance()
     {
-        return (int)_balance;
+        return _balance;
     }
 
-    public void UpdateBalance(double change)
+    public bool UpdateBalance(double change)
     {
+        // Balance should not go under 0, may need to be changed if different types of trading are added
+        if (_balance + change < 0)
+        {
+            return false;
+        }
+        
         _balance += change;
+        return true;
     }
 
     public HoldingManager GetHoldings()
