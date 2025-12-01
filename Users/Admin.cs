@@ -10,13 +10,25 @@ public class Admin : User
     public string Role {get; } = "Admin";
 
     public Admin(string username, string password) : base(username, password){}
-
     
     public Trader CreateTrader(string username, string password, double initialBalance)
     {
         return new Trader(username, password, initialBalance);
     }
 
+    public bool AddTicker(Ticker ticker, ITickerRepository repository)
+    {
+        Ticker? exists = repository.SearchBySymbol(ticker.Symbol);
+        
+        if (exists != null)
+        {
+            return false; 
+        }
+        
+        return repository.AddTicker(ticker);
+    }
+    {
+    
     public bool RemoveTicker(string symbol, ITickerRepository tickerRepository)
     {
         if (string.IsNullOrWhiteSpace(symbol))
