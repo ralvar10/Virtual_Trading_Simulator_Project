@@ -14,20 +14,7 @@ public class Admin : User
     
     public Trader CreateTrader(string username, string password, double initialBalance)
     {
-        if (string.IsNullOrWhiteSpace(username))
-        {
-            throw new ArgumentException("Username cannot be null or empty.", nameof(username));
-        }
-
-        if (initialBalance < 0)
-        {
-            throw new ArgumentException("Initial balance cannot be negative.", nameof(initialBalance));
-        }
-
-        int traderId = _nextTraderId++;
-        int defaultPassword = 0; // Default password set to 0
-
-        return new Trader(username, defaultPassword, initialBalance);
+        return new Trader(username, password, initialBalance);
     }
 
     public bool RemoveTicker(string symbol, ITickerRepository tickerRepository)
