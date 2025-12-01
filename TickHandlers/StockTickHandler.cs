@@ -28,7 +28,7 @@ public class StockTickHandler : ITickHandler
 
     public bool UpdateTickRate(int tickRate)
     {
-        if (_tickRate > MinTickRate) // Minimum tick rate is somewhat trivial, half a second seems fair
+        if (tickRate > MinTickRate) // Minimum tick rate is somewhat trivial, half a second seems fair
         {
             _tickRate = tickRate;
             return true;
