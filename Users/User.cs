@@ -6,7 +6,7 @@ public abstract class User
     
     public readonly string Username;
 
-    protected User(string username, string password, int id) 
+    protected User(string username, string password) 
     {
         if (string.IsNullOrWhiteSpace(username) && string.IsNullOrWhiteSpace(password) || 
             username.Length < 3 || password.Length < 3)
