@@ -26,6 +26,6 @@ public class OrderStatistics : IStatistics
         }
         
         Console.WriteLine($"{_order.Time:MM/dd/yy HH:mm:ss,-20} {_order.OrderType,-5} {_order.Security.Symbol,-8} " +
-                          $"{_order.Quantity,-8:F2}:F2 ${_order.Value:,-11:F2} {gainLossStr,-12} {_order.Status,-10} {strategies,-15}");
+                          $"{_order.Quantity,-8:F2} ${_order.Value,-11:F2} {gainLossStr,-12} {_order.Status,-10} {strategies,-15}");
     }
 }
