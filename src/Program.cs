@@ -253,6 +253,7 @@ public class Program
 
     void LogOut()
     {
+        _loggedInUser?.LogOut();
         Console.WriteLine($"Logged Out: {_loggedInUser?.Username}");
         _loggedInUser = null;
     }

@@ -97,12 +97,14 @@ public class SellOrder : Order
             Gain = Value - costBasis;
             
             Status = OrderStatus.Filled;
-            Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
+            if (Trader.IsLoggedIn)
+                Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
         }
         else
         {
             Status = OrderStatus.Failed;
-            Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
+            if (Trader.IsLoggedIn)
+                Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
         }
     }
 

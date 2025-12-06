@@ -3,7 +3,7 @@
 public abstract class User
 {
     private readonly string _password;
-    
+    public bool IsLoggedIn { get; private set; } = false;
     public readonly string Username;
 
     protected User(string username, string password) 
@@ -20,7 +20,17 @@ public abstract class User
     {
         if (password == null)
             return false;
-        return password == _password;
+        if (password.Equals(_password))
+        {
+            IsLoggedIn = true;
+            return true;
+        }
+        return false;
+    }
+
+    public void LogOut()
+    {
+        IsLoggedIn = false;
     }
 
     public string GetPassword()

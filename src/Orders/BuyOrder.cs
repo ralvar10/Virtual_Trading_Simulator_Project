@@ -59,11 +59,13 @@ public class BuyOrder : Order
                 
                 Status = OrderStatus.Filled;
                 
-                Console.WriteLine($"Buy order filled: {Quantity} shares of {Security.Symbol} at ${executionPrice:F2}");
+                if (Trader.IsLoggedIn)
+                    Console.WriteLine($"Buy order filled: {Quantity} shares of {Security.Symbol} at ${executionPrice:F2}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Order execution failed: {ex.Message}");
+                if (Trader.IsLoggedIn)
+                    Console.WriteLine($"Order execution failed: {ex.Message}");
                 Status = OrderStatus.Failed;
             }
         }
