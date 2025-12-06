@@ -16,8 +16,10 @@ public abstract class User
         Username = username;
     }
 
-    public bool Login(string password)
+    public bool Login(string? password)
     {
+        if (password == null)
+            return false;
         return password == _password;
     }
 

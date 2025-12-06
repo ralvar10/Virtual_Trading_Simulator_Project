@@ -87,8 +87,11 @@ public class TickerFileHandler : IFileHandler
         }
     }
 
-    public bool WriteToFile(string fileName)
+    public bool WriteToFile(string? fileName)
     {
+        if (fileName == null)
+            return false;
+        
         try
         {
             var tickers = _tickerRepository.GetTickers();

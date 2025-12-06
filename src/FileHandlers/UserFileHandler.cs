@@ -31,8 +31,11 @@ public class UserFileHandler : IFileHandler
         return this;
     }
 
-    public bool LoadFromFile(string fileName)
+    public bool LoadFromFile(string? fileName)
     {
+        if (fileName == null)
+            return false;
+        
         try
         {
             if (!File.Exists(fileName))

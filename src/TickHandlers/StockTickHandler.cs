@@ -9,7 +9,7 @@ public class StockTickHandler : ITickHandler
     private int _tickRate; // In milliseconds
     private bool _running;
     private const int MinTickRate = 500; 
-    private CancellationTokenSource _cancellationTokenSource; // Used to end any extra threads on command
+    private CancellationTokenSource? _cancellationTokenSource; // Used to end any extra threads on command
 
     private StockTickHandler()
     {

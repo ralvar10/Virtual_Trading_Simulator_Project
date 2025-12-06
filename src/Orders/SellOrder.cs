@@ -11,9 +11,12 @@ public class SellOrder : Order
     public IAccountingStrategy AccountingStrategy {get;}
     
     public SellOrder(Trader trader, double quantity, Ticker security, ITradeStrategy tradeStrategy,
-        IAccountingStrategy accountingStrategy) : base(trader, quantity, security, tradeStrategy)
+        IAccountingStrategy? accountingStrategy) : base(trader, quantity, security, tradeStrategy)
     {
-        AccountingStrategy = accountingStrategy;
+        if (accountingStrategy == null)
+            AccountingStrategy = new FifoStrategy();
+        else
+            AccountingStrategy = accountingStrategy;
         OrderType = "Sell";
     }
     

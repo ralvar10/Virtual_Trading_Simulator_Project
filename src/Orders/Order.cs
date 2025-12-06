@@ -12,7 +12,7 @@ public abstract class Order
     public double Value {get; protected set;}
     public Ticker Security {get;}
     public OrderStatistics OrderStats {get;}
-    public string OrderType {get; protected set;}
+    public string? OrderType {get; protected set;}
     public double Gain {get; protected set;} = 0;
     
     protected ITradeStrategy TradeStrategy {get;}

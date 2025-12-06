@@ -161,8 +161,11 @@ public class Program
         Console.WriteLine("Goodbye!");
     }
 
-        void LoadFromFiles(string path)
-    {
+        void LoadFromFiles(string? path)
+        {
+            if (path == null)
+                return;
+            
         try
         {
             bool tickersLoaded = _tickerFileHandler.LoadFromFile(path + "/tickers.txt");
@@ -185,8 +188,10 @@ public class Program
         }
     }
 
-        void SaveToFiles(string path)
+        void SaveToFiles(string? path)
     {
+        if (path == null)
+            return;
         try
         {
             Console.WriteLine("\nSaving data to files...");
