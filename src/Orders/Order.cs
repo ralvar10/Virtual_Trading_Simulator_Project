@@ -36,7 +36,7 @@ public abstract class Order
         Time = DateTime.Now;
         Status = OrderStatus.Pending;
         
-        Value = Security.GetPrice() * Quantity;
+        Value = Math.Round(Security.GetPrice() * Quantity, 2);
     }
 
     public abstract bool Validate();

@@ -18,7 +18,7 @@ public class Trader : User
     {
         if (initialBalance < 0)
             throw new ArgumentException("Initial balance cannot be negative");
-        _balance = initialBalance;
+        _balance = Math.Round(initialBalance, 2);
         _holdings = new HoldingManager();
         _orderHistory = new OrderHistory();
         Statistics = new TraderStatistics(this);

@@ -17,7 +17,7 @@ public class Ticker
     {
         Symbol = symbol;
         Name = name;
-        _price = initialPrice;
+        _price = Math.Round(initialPrice, 2);
         _volatility = new VolatilityParameters();
         Statistics = new TickerStatistics(this);
     }
@@ -76,7 +76,11 @@ public class Ticker
     {
         lock (_priceLock)
         {
-            _price = price;
+            if (price < 0.01)
+                return;
+            
+            _price = Math.Round(price, 2);
+            
         }
     }
     
@@ -111,6 +115,8 @@ public class Ticker
             {
                 _price = 0.01;
             }
+            
+            _price = Math.Round(_price, 2);
             
             Statistics.UpdateStatistics();
             

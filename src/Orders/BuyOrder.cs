@@ -15,11 +15,11 @@ public class BuyOrder : Order
 
     public override bool Validate()
     {
-        double requiredBalance = Security.GetPrice() * Quantity;
+        double requiredBalance = Math.Round(Security.GetPrice() * Quantity, 2);
         
         if (Trader.GetBalance() < requiredBalance)
         {
-            Console.WriteLine($"Insufficient balance. Required: ${requiredBalance}, Available: ${Trader.GetBalance()}");
+            Console.WriteLine($"Insufficient balance. Required: ${requiredBalance:F2}, Available: ${Trader.GetBalance():F2}");
             return false;
         }
 
@@ -49,7 +49,7 @@ public class BuyOrder : Order
             try
             {
                 double executionPrice = Security.GetPrice();
-                double totalCost = executionPrice * Quantity;
+                double totalCost = Math.Round(executionPrice * Quantity, 2);
                 
                 Value = totalCost;
                 
@@ -59,7 +59,7 @@ public class BuyOrder : Order
                 
                 Status = OrderStatus.Filled;
                 
-                Console.WriteLine($"Buy order filled: {Quantity} shares of {Security.Symbol} at ${executionPrice}");
+                Console.WriteLine($"Buy order filled: {Quantity} shares of {Security.Symbol} at ${executionPrice:F2}");
             }
             catch (Exception ex)
             {

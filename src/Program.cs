@@ -416,7 +416,7 @@ public class Program
             Console.WriteLine($"Symbol: {symbol}");
             Console.WriteLine($"Quantity: {quantity}");
             Console.WriteLine($"Current price: ${ticker.GetPrice()}");
-            Console.WriteLine($"Estimated value: ${ticker.GetPrice() * quantity}");
+            Console.WriteLine($"Estimated value: ${ticker.GetPrice() * quantity:F2}");
             Console.WriteLine($"Strategy: {tradeStrategy.ToUpper()}");
             if (limitPrice.HasValue)
             {

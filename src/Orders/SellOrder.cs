@@ -76,15 +76,15 @@ public class SellOrder : Order
             
             double price = Security.GetPrice();
 
-            Value = price * Quantity;
+            Value = Math.Round(price * Quantity, 2);
             
             
             foreach (Holding holding in holdings)
             {
                 double toRemove = Math.Min(Quantity - numRemoved,  holding.Quantity);
-                costBasis += holding.InitialCost * toRemove;
+                costBasis += Math.Round(holding.InitialCost * toRemove, 2);
                 
-                Trader.UpdateBalance(price * toRemove);
+                Trader.UpdateBalance(Math.Round(price * toRemove, 2));
                 Trader.GetHoldings().DecrementHolding(holding, toRemove);
                 numRemoved += toRemove;
                 
@@ -97,12 +97,12 @@ public class SellOrder : Order
             Gain = Value - costBasis;
             
             Status = OrderStatus.Filled;
-            Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value}");
+            Console.WriteLine($"Sell order filled: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
         }
         else
         {
             Status = OrderStatus.Failed;
-            Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value}");
+            Console.WriteLine($"ERROR Sell Order failed: {Quantity} shares of {Security.Symbol} at ${Value:F2}");
         }
     }
 
