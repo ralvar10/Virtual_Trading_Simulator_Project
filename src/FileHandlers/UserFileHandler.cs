@@ -31,13 +31,13 @@ public class UserFileHandler : IFileHandler
         return this;
     }
 
-    public bool LoadFromFile(string? fileName)
+    public bool LoadFromFile(string? fileName = null)
     {
-        if (fileName == null)
-            return false;
-        
         try
         {
+            if (fileName == null)
+                fileName = FindFile();
+            
             if (!File.Exists(fileName))
             {
                 Console.WriteLine($"No user file found at {fileName}.");
@@ -111,7 +111,7 @@ public class UserFileHandler : IFileHandler
                     Console.WriteLine($"Error parsing line: {ex.Message}");
                 }
             }
-            
+            Console.WriteLine($"Loaded {userCount} users from {fileName}");
             return userCount > 0;
         }
         catch (Exception ex)
@@ -121,10 +121,13 @@ public class UserFileHandler : IFileHandler
         }
     }
 
-    public bool WriteToFile(string fileName)
+    public bool WriteToFile(string? fileName = null)
     {
         try
         {
+            if (fileName == null)
+                fileName = FindFile();
+            
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("[USER]");
 
@@ -166,5 +169,36 @@ public class UserFileHandler : IFileHandler
             Console.WriteLine($"Error saving users: {ex.Message}");
             return false;
         }
+    }
+    
+    private static string FindDirectory()
+    {
+        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+        DirectoryInfo? directory = new DirectoryInfo(currentDir);
+
+        while (directory != null)
+        {
+            if (Directory.Exists(Path.Combine(directory.FullName, "src")))
+            {
+                return directory.FullName;
+            }
+
+            directory = directory.Parent;
+        }
+
+        return currentDir;
+    }
+
+    private static string FindFile()
+    {
+        string directory = FindDirectory();
+        string path = Path.Combine(directory, "docs");
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        return Path.Combine(path, "users.txt");
     }
 }

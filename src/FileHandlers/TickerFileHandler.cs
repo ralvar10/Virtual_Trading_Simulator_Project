@@ -28,10 +28,13 @@ public class TickerFileHandler : IFileHandler
         return this;
     }
 
-    public bool LoadFromFile(string fileName)
+    public bool LoadFromFile(string? fileName = null)
     {
         try
         {
+            if (fileName == null)
+                fileName = FindFile();
+            
             if (!File.Exists(fileName))
             {
                 Console.WriteLine($"No ticker file found at {fileName}. Starting with empty ticker list.");
@@ -87,10 +90,10 @@ public class TickerFileHandler : IFileHandler
         }
     }
 
-    public bool WriteToFile(string? fileName)
+    public bool WriteToFile(string? fileName = null)
     {
         if (fileName == null)
-            return false;
+            fileName = FindFile();
         
         try
         {
@@ -127,5 +130,36 @@ public class TickerFileHandler : IFileHandler
             Console.WriteLine($"Error saving tickers: {ex.Message}");
             return false;
         }
+    }
+
+    private static string FindDirectory()
+    {
+        string currentDir = AppDomain.CurrentDomain.BaseDirectory;
+        DirectoryInfo? directory = new DirectoryInfo(currentDir);
+
+        while (directory != null)
+        {
+            if (Directory.Exists(Path.Combine(directory.FullName, "src")))
+            {
+                return directory.FullName;
+            }
+
+            directory = directory.Parent;
+        }
+
+        return currentDir;
+    }
+
+    private static string FindFile()
+    {
+        string directory = FindDirectory();
+        string path = Path.Combine(directory, "docs");
+
+        if (!Directory.Exists(path))
+        {
+            Directory.CreateDirectory(path);
+        }
+
+        return Path.Combine(path, "tickers.txt");
     }
 }

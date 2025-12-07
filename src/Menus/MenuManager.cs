@@ -38,11 +38,7 @@ public class MenuManager
 
     public void Run()
     {
-        Console.WriteLine($"Where are your data files stored? (Current Directory: {Directory.GetCurrentDirectory()}):");
-        Console.WriteLine();
-        string? path = Console.ReadLine();
-
-        LoadFromFiles(path);
+        LoadFromFiles();
         bool running = true;
 
         _tickHandler.StartTicks();
@@ -75,7 +71,7 @@ public class MenuManager
         }
 
         _tickHandler.StopTicks();
-        SaveToFiles(path);
+        SaveToFiles();
         Console.WriteLine("Goodbye!");
     }
 
@@ -102,45 +98,16 @@ public class MenuManager
         }
     }
 
-    private void LoadFromFiles(string? path)
+    private void LoadFromFiles()
     {
-        try
-        {
-            bool tickersLoaded = _tickerFileHandler.LoadFromFile(path + "/tickers.txt");
-            
-            if (!tickersLoaded)
-            {
-                Console.WriteLine("Ticker Import Failed!");
-            }
-            
-            bool usersLoaded = _userFileHandler.LoadFromFile(path + "/users.txt");
-            
-            if (!usersLoaded)
-            {
-                Console.WriteLine("User Import Failed!");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error loading data: {ex.Message}");
-        }
+        _tickerFileHandler.LoadFromFile();
+        _userFileHandler.LoadFromFile();
     }
 
-    private void SaveToFiles(string? path)
+    private void SaveToFiles()
     {
-        try
-        {
-            Console.WriteLine("\nSaving data to files...");
-            
-            _tickerFileHandler.WriteToFile(path + "/tickers.txt");
-            _userFileHandler.WriteToFile(path + "/users.txt");
-            
-            Console.WriteLine("Data saved successfully.");
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Error saving data: {ex.Message}");
-        }
+        _tickerFileHandler.WriteToFile();
+        _userFileHandler.WriteToFile();
     }
 
     private User? Login()

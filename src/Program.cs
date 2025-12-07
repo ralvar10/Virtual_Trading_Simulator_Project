@@ -5,6 +5,8 @@ using Virtual_Trading_Simulator_Project.Tickers.TickerRepositories;
 using Virtual_Trading_Simulator_Project.TickHandlers;
 using Virtual_Trading_Simulator_Project.Users;
 
+namespace Virtual_Trading_Simulator_Project;
+
 public class Program
 {
     public static void Main(string[] args)
