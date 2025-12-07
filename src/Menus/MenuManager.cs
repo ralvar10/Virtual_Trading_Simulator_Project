@@ -15,7 +15,7 @@ public class MenuManager
     private readonly UserFileHandler _userFileHandler;
     private readonly ITickHandler _tickHandler;
 
-    private readonly AdminMenu _adminMenuService;
+    private readonly AdminMenu _adminMenu;
     private readonly TraderMenuService _traderMenuService;
 
     public MenuManager(
@@ -32,7 +32,7 @@ public class MenuManager
         _userFileHandler = userFileHandler;
         _tickHandler = tickHandler;
 
-        _adminMenuService = new AdminMenu(_users, tickerRepo, _tickHandler);
+        _adminMenu = new AdminMenu(_users, tickerRepo, _tickHandler);
         _traderMenuService = new TraderMenuService(tickerRepo, _tickHandler, orderFactory);
     }
 
@@ -53,7 +53,7 @@ public class MenuManager
             }
             else if (_loggedInUser is Admin admin)
             {
-                bool shouldLogout = _adminMenuService.ShowAdminMenu(admin);
+                bool shouldLogout = _adminMenu.ShowAdminMenu(admin);
                 if (shouldLogout)
                 {
                     

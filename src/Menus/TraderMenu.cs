@@ -204,13 +204,13 @@ public class TraderMenuService
             Console.WriteLine($"\n=== Order Summary ===");
             Console.WriteLine($"Type: {orderType.ToUpper()}");
             Console.WriteLine($"Symbol: {symbol}");
-            Console.WriteLine($"Quantity: {quantity}");
-            Console.WriteLine($"Current price: ${ticker.GetPrice()}");
-            Console.WriteLine($"Estimated value: ${ticker.GetPrice() * quantity}");
+            Console.WriteLine($"Quantity: {quantity:F2}");
+            Console.WriteLine($"Current price: ${ticker.GetPrice():F2}");
+            Console.WriteLine($"Estimated value: ${ticker.GetPrice() * quantity:F2}");
             Console.WriteLine($"Strategy: {tradeStrategy.ToUpper()}");
             if (limitPrice.HasValue)
             {
-                Console.WriteLine($"Limit price: ${limitPrice.Value}");
+                Console.WriteLine($"Limit price: ${limitPrice.Value:F2}");
             }
             if (orderType == "sell")
             {
@@ -235,7 +235,7 @@ public class TraderMenuService
                     }
                     else
                     {
-                        Console.WriteLine($"Limit order is pending. Will execute when price {(orderType == "buy" ? "drops to or below" : "rises to or above")} ${limitPrice}");
+                        Console.WriteLine($"Limit order is pending. Will execute when price {(orderType == "buy" ? "drops to or below" : "rises to or above")} ${limitPrice:F2}");
                     }
                 }
                 else
@@ -278,7 +278,7 @@ public class TraderMenuService
         {
             var order = pendingOrders[i];
             var strategies = string.Join(", ", order.GetStrategies());
-            Console.WriteLine($"{i + 1,-4} {order.Time,-20} {order.OrderType,-5} {order.Security.Symbol,-8} {order.Quantity,-8} {strategies,-15}");
+            Console.WriteLine($"{i + 1,-4} {order.Time,-20} {order.OrderType,-5} {order.Security.Symbol,-8} {order.Quantity,-8:F2} {strategies,-15}");
         }
         
         Console.WriteLine(new string('-', 75));

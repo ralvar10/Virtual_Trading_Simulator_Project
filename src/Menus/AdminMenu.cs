@@ -111,7 +111,7 @@ public class AdminMenu
             Trader newTrader = admin.CreateTrader(username, password, balance);
             _users.Add(newTrader);
             
-            Console.WriteLine($"Trader account '{username}' created successfully with balance ${balance}!");
+            Console.WriteLine($"Trader account '{username}' created successfully with balance ${balance:F2}!");
         }
         catch (Exception ex)
         {
@@ -190,7 +190,7 @@ public class AdminMenu
                     {
                         Console.WriteLine($"\nTicker '{symbol}' added successfully!");
                         Console.WriteLine($"  Company: {name}");
-                        Console.WriteLine($"  Price: ${price}");
+                        Console.WriteLine($"  Price: ${price:F2}");
                         Console.WriteLine($"  Volatility: {volatilityPreset}");
                     }
                     else
@@ -272,7 +272,7 @@ public class AdminMenu
             return;
         }
         
-        Console.WriteLine($"Current price: ${ticker.GetPrice()}");
+        Console.WriteLine($"Current price: ${ticker.GetPrice():F2}");
         Console.Write("Enter new price: ");
         
         if (!double.TryParse(Console.ReadLine(), out double newPrice) || newPrice <= 0)
