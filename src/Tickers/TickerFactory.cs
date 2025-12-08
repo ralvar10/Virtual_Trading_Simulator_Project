@@ -1,6 +1,6 @@
 ﻿namespace Virtual_Trading_Simulator_Project.Tickers;
 
-public abstract class TickerFactory
+public class TickerFactory
 {
     public Ticker CreateTicker(string symbol, string name, double initialPrice, string VolatilityPreset)
     {
